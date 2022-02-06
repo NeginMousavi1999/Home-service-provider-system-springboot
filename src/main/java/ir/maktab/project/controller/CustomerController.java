@@ -2,6 +2,7 @@ package ir.maktab.project.controller;
 
 import ir.maktab.project.data.dto.*;
 import ir.maktab.project.data.enumuration.PaymentMethod;
+import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class CustomerController {
     private final OrderService orderService;
     private final SuggestionService suggestionService;
     private final FeedbackService feedbackService;
-    private final PaymentService paymantService;
+    private final PaymentService paymentService;
 
     @GetMapping("/dashboard")
     public String showDashboard() {
@@ -48,7 +50,7 @@ public class CustomerController {
             CustomerDto customerDto = customerService.findByEmail(email);
             customerService.changePassword(customerDto, oldPassword, newPassword);
             model.addAttribute("customer", customerDto);
-            model.addAttribute("succ_massage", "successfuly changed");
+            model.addAttribute("succ_massage", "successfully changed");
             return "customer/change_password";
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
@@ -72,7 +74,7 @@ public class CustomerController {
             CustomerDto customerDto = (CustomerDto) request.getSession().getAttribute("customerDto");
             OrderDto orderDto = orderService.addNewOrder(orderRequest, customerDto);
             modelAndView.getModelMap().addAttribute("order", orderDto);
-            modelAndView.getModelMap().addAttribute("succ_massage", "successfuly added");
+            modelAndView.getModelMap().addAttribute("succ_massage", "successfully added");
             modelAndView.setViewName("customer/add_order");
             return showAddNewOrder(modelAndView);
         } catch (Exception e) {
@@ -91,9 +93,9 @@ public class CustomerController {
                 .paymentMethod(PaymentMethod.CREDIT)
                 .build();
         try {
-            CustomerDto customerDto = paymantService.pay(paymentDto);
+            CustomerDto customerDto = paymentService.pay(paymentDto);
             session.setAttribute("customerDto", customerDto);
-            model.addAttribute("succ_massage", "successfuly paid");
+            model.addAttribute("succ_massage", "successfully paid");
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());
         }
@@ -125,9 +127,9 @@ public class CustomerController {
         try {
             PaymentDto paymentDto = (PaymentDto) session.getAttribute("paymentDto");
             paymentDto.setCardNumber(donePaymentDto.getCardNumber());
-            CustomerDto customerDto = paymantService.pay(paymentDto);
+            CustomerDto customerDto = paymentService.pay(paymentDto);
             session.setAttribute("customerDto", customerDto);
-            model.addAttribute("succ_massage", "successfuly paid");
+            model.addAttribute("succ_massage", "successfully paid");
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());
         }
@@ -135,16 +137,16 @@ public class CustomerController {
     }
 
     @GetMapping("/show_feedback_page/{identity}")
-    public String showfeedbackPage(@PathVariable("identity") int orderIdentity, Model model, HttpServletRequest request) {
+    public String showFeedbackPage(@PathVariable("identity") int orderIdentity, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Set<OrderDto> doneOrders = (Set<OrderDto>) session.getAttribute("customer_orders");
-        OrderDto choosenOrder = doneOrders.stream().filter(order -> order.getIdentity() == orderIdentity).findFirst().orElse(null);
+        OrderDto chosenOrder = doneOrders.stream().filter(order -> order.getIdentity() == orderIdentity).findFirst().orElse(null);
         CustomerDto customerDto = (CustomerDto) session.getAttribute("customerDto");
-        assert choosenOrder != null;
+        assert chosenOrder != null;
         FeedbackDto feedbackDto = FeedbackDto.builder()
-                .order(choosenOrder)
+                .order(chosenOrder)
                 .customer(customerDto)
-                .expert(choosenOrder.getExpert())
+                .expert(chosenOrder.getExpert())
                 .build();
         model.addAttribute("feedbackDto", feedbackDto);
         session.setAttribute("feedbackDto", feedbackDto);
@@ -176,8 +178,8 @@ public class CustomerController {
         try {
             CustomerDto customerDto = (CustomerDto) session.getAttribute("customerDto");
             double amount = Double.parseDouble(stringAmount);
-            customerService.increseCredit(customerDto, amount);
-            model.addAttribute("succ_massage", "successfuly increased");
+            customerService.increaseCredit(customerDto, amount);
+            model.addAttribute("succ_massage", "successfully increased");
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());
         }
@@ -209,7 +211,7 @@ public class CustomerController {
         return "customer/suggestions";
     }
 
-    @GetMapping("/show_order_suggestions_sortedByExper/{identity}")
+    @GetMapping("/show_order_suggestions_sortedByExpert/{identity}")
     public String showOrderSuggestionsWithExpertScore(@PathVariable("identity") int identity, HttpServletRequest request,
                                                       Model model) {
         HttpSession session = request.getSession();
@@ -238,9 +240,32 @@ public class CustomerController {
         HttpSession session = request.getSession();
         List<SuggestionDto> suggestions = (List<SuggestionDto>) session.getAttribute("customer_suggestions");
         suggestionService.chooseSuggestion(identity, new ArrayList<>(suggestions));
-        model.addAttribute("succ_massage", "successfuly added");
+        model.addAttribute("succ_massage", "successfully added");
         SuggestionDto suggestionDto = suggestions.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
         assert suggestionDto != null;
         return showOrderSuggestions(suggestionDto.getOrder().getIdentity(), request, model);
+    }
+
+    @GetMapping("/confirm")
+    public String confirmRegistration
+            (HttpServletRequest request, Model model, @RequestParam("token") String token) {
+
+        VerificationTokenDto verificationToken = customerService.getVerificationToken(token);
+        if (verificationToken == null) {
+            model.addAttribute("message", "no such a verification token");
+            return "error_system";
+        }
+
+        CustomerDto customerDto = verificationToken.getCustomerDto();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpireDate().getTime() - cal.getTime().getTime()) <= 0) {
+            model.addAttribute("message", "verification token expired!");
+            return "error_system";
+        }
+        customerDto.setUserStatus(UserStatus.CONFIRMED);
+        customerService.update(customerDto);
+        HttpSession session = request.getSession();
+        session.setAttribute("customerDto", customerDto);
+        return "redirect:/customer/dashboard";
     }
 }

@@ -11,8 +11,11 @@ import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,7 +36,11 @@ public class SystemController {
     private final UserService userService;
     private final CustomerService customerService;
     private final ExpertService expertService;
+    private final RegistrationListener registrationListener;
     private final ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/")
     public ModelAndView login() {
@@ -78,8 +85,9 @@ public class SystemController {
     }
 
     @PostMapping("/doRegister")
-    public String doRegister(@RequestParam("file") MultipartFile file, @ModelAttribute("registerData") @Validated UserDto userDto,
-                             Model model, HttpServletRequest request) {
+    public String doRegister(@RequestParam("file") MultipartFile file,
+                             @ModelAttribute("registerData") @Validated UserDto userDto,
+                             Model model, HttpServletRequest request, Errors errors) {
         HttpSession session;
         userDto.setUserStatus(UserStatus.WAITING);
 
@@ -104,6 +112,12 @@ public class SystemController {
         try {
             customerDto = modelMapper.map(userDto, CustomerDto.class);
             customerService.save(customerDto);
+            customerDto = customerService.findByEmail(userDto.getEmail());
+            String appUrl = request.getContextPath();
+            OnRegistrationCompleteEvent event = new OnRegistrationCompleteEvent(customerDto, request.getLocale(), appUrl);
+//            eventPublisher.publishEvent(event);
+            registrationListener.onApplicationEvent(event);
+
         } catch (Exception e) {
             model.addAttribute("massage", e.getLocalizedMessage());
             return "customer/customer_dashboard";

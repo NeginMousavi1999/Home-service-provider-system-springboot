@@ -2,12 +2,14 @@ package ir.maktab.project.service.implementation;
 
 import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.UserDto;
+import ir.maktab.project.data.dto.VerificationTokenDto;
 import ir.maktab.project.data.entity.members.Customer;
 import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.repository.CustomerRepository;
 import ir.maktab.project.exception.HomeServiceException;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.OrderService;
+import ir.maktab.project.service.VerificationTokenService;
 import ir.maktab.project.util.mapper.CustomerMapper;
 import ir.maktab.project.util.mapper.UserMapper;
 import ir.maktab.project.validation.Validation;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @Getter
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final VerificationTokenService verificationTokenService;
     private final Validation validation;
     private final ModelMapper modelMapper = new ModelMapper();
     private final OrderService orderService;
@@ -60,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void increseCredit(CustomerDto customerDto, double amount) {
+    public void increaseCredit(CustomerDto customerDto, double amount) {
         double oldCredit = customerDto.getCredit();
         customerDto.setCredit(oldCredit + amount);
         update(customerDto);
@@ -98,5 +101,21 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDto> getAll() {
         List<Customer> customers = (List<Customer>) customerRepository.findAll();
         return customers.stream().map(CustomerMapper::mapCustomerToCustomerDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void createVerificationToken(CustomerDto user, String token) {
+        VerificationTokenDto myToken = new VerificationTokenDto(token, user);
+        verificationTokenService.save(myToken);
+    }
+
+    @Override
+    public VerificationTokenDto getVerificationToken(String VerificationToken) {
+        return verificationTokenService.findByToken(VerificationToken);
+    }
+
+    @Override
+    public CustomerDto getCustomerDtoByVerificationToken(String verificationToken) {
+        return verificationTokenService.findByToken(verificationToken).getCustomerDto();
     }
 }

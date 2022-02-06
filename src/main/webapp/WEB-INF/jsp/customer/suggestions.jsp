@@ -47,7 +47,7 @@
                        href="/customer/show_order_suggestions_sortedByExpertAndPrice/${identity}">sort by expert score
                         and suggested price</a>
                     <a class="border p-3 mr-3"
-                       href="/customer/show_order_suggestions_sortedByExper/${identity}">sort by expert
+                       href="/customer/show_order_suggestions_sortedByExpert/${identity}">sort by expert
                         score</a>
                     <a class="border p-3" href="/customer/show_order_suggestions_sortedByPrice/${identity}">sort
                         by suggested price</a>

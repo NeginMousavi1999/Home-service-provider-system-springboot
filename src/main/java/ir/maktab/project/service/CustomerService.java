@@ -2,6 +2,7 @@ package ir.maktab.project.service;
 
 import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.UserDto;
+import ir.maktab.project.data.dto.VerificationTokenDto;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface CustomerService {
 
     Long getCountOfRecords();
 
-    void increseCredit(CustomerDto customerDto, double amount);
+    void increaseCredit(CustomerDto customerDto, double amount);
 
     void changePassword(CustomerDto customerDto, String oldPassword, String newPassword);
 
@@ -27,4 +28,10 @@ public interface CustomerService {
     Map<UserDto, Integer> getCustomerAndNumberOfRegisteredRequests();
 
     List<CustomerDto> getAll();
+
+    void createVerificationToken(CustomerDto user, String token);
+
+    VerificationTokenDto getVerificationToken(String VerificationToken);
+
+    CustomerDto getCustomerDtoByVerificationToken(String verificationToken);
 }
