@@ -34,4 +34,6 @@ public interface CustomerService {
     VerificationTokenDto getVerificationToken(String VerificationToken);
 
     CustomerDto getCustomerDtoByVerificationToken(String verificationToken);
+
+    void confirm(CustomerDto customerDto, VerificationTokenDto verificationToken);
 }

@@ -38,6 +38,12 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return VerificationTokenMapper.mapVerificationTokenToVerificationTokenDto(optionalVerificationToken.get());
     }
 
+    @Override
+    public void hasUsedToken(VerificationTokenDto verificationToken) {
+        verificationToken.setUsedCount(1);
+        verificationTokenRepository.save(VerificationTokenMapper.mapVerificationTokenDtoToVerificationToken(verificationToken));
+    }
+
     public Date calculateExpireDate(int expireTimeInMinutes) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Timestamp(cal.getTime().getTime()));

@@ -115,7 +115,6 @@ public class SystemController {
             customerDto = customerService.findByEmail(userDto.getEmail());
             String appUrl = request.getContextPath();
             OnRegistrationCompleteEvent event = new OnRegistrationCompleteEvent(customerDto, request.getLocale(), appUrl);
-//            eventPublisher.publishEvent(event);
             registrationListener.onApplicationEvent(event);
 
         } catch (Exception e) {

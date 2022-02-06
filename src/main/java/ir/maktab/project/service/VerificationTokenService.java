@@ -9,4 +9,6 @@ public interface VerificationTokenService {
     void save(VerificationTokenDto myToken);
 
     VerificationTokenDto findByToken(String verificationToken);
+
+    void hasUsedToken(VerificationTokenDto verificationToken);
 }

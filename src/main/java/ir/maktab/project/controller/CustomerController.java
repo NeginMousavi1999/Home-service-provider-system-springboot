@@ -2,7 +2,6 @@ package ir.maktab.project.controller;
 
 import ir.maktab.project.data.dto.*;
 import ir.maktab.project.data.enumuration.PaymentMethod;
-import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -250,7 +249,13 @@ public class CustomerController {
     public String confirmRegistration
             (HttpServletRequest request, Model model, @RequestParam("token") String token) {
 
-        VerificationTokenDto verificationToken = customerService.getVerificationToken(token);
+        VerificationTokenDto verificationToken;
+        try {
+            verificationToken = customerService.getVerificationToken(token);
+        } catch (Exception exception) {
+            model.addAttribute("message", exception.getLocalizedMessage());
+            return "error_system";
+        }
         if (verificationToken == null) {
             model.addAttribute("message", "no such a verification token");
             return "error_system";
@@ -262,8 +267,13 @@ public class CustomerController {
             model.addAttribute("message", "verification token expired!");
             return "error_system";
         }
-        customerDto.setUserStatus(UserStatus.CONFIRMED);
-        customerService.update(customerDto);
+
+        if (verificationToken.getUsedCount() > 0) {
+            model.addAttribute("message"
+                    , "you are already confirmed and you can use registration link only once!");
+            return "error_system";
+        }
+        customerService.confirm(customerDto, verificationToken);
         HttpSession session = request.getSession();
         session.setAttribute("customerDto", customerDto);
         return "redirect:/customer/dashboard";

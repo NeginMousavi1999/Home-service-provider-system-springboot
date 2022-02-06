@@ -25,6 +25,8 @@ public class VerificationTokenDto {
 
     private Date expireDate;
 
+    private int usedCount;
+
     public VerificationTokenDto(String token, CustomerDto customerDto) {
         this.token = token;
         this.customerDto = customerDto;

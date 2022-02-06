@@ -30,4 +30,7 @@ public class VerificationToken {
     private Customer customer;
 
     private Date expireDate;
+
+    @Column(name = "used_count")
+    private int usedCount;
 }
