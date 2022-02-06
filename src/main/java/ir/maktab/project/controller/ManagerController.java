@@ -65,8 +65,8 @@ public class ManagerController {
 
     @PostMapping("/dashboard/doFilter")
     public String doFilter(@ModelAttribute("filterData") UserRequestDto userRequestDto, Model model) {
-        List<UserDto> userDtos = userService.returnUsersFiltering(userRequestDto);
-        model.addAttribute("users", userDtos);
+        List<UserDto> userDtoList = userService.returnUsersFiltering(userRequestDto);
+        model.addAttribute("users", userDtoList);
         return "manager/search";
     }
 
@@ -74,7 +74,7 @@ public class ManagerController {
     public String confirm(@PathVariable("identity") int identity, Model model) {
         try {
             managerService.confirmUser(identity);
-            model.addAttribute("succ_massage", "confirmed successfuly");
+            model.addAttribute("succ_massage", "confirmed successfully");
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
         }
@@ -86,9 +86,9 @@ public class ManagerController {
         Set<ServiceDto> services = serviceService.getAllServiceIncludingSubService();
         Map<ExpertDto, Set<SubServiceDto>> expertSubservices = managerService.getExpertAndSubServices(identity);
         Collection<Set<SubServiceDto>> values = expertSubservices.values();
-        for (Set<SubServiceDto> subServiceDtos : values) {
+        for (Set<SubServiceDto> subServiceDtoSet : values) {
             model.addAttribute("services", services)
-                    .addAttribute("expert_subservices", subServiceDtos);
+                    .addAttribute("expert_subservices", subServiceDtoSet);
         }
         request.getSession().setAttribute("expert_and_subservices", expertSubservices);
         return "manager/add_subservices";
@@ -101,16 +101,16 @@ public class ManagerController {
         try {
             Map<ExpertDto, Set<SubServiceDto>> expertAndSubservices = (Map<ExpertDto, Set<SubServiceDto>>) session
                     .getAttribute("expert_and_subservices");
-            Set<ExpertDto> expertDtos = expertAndSubservices.keySet();
+            Set<ExpertDto> expertDtoSet = expertAndSubservices.keySet();
             ExpertDto expertDto = null;
-            for (ExpertDto myExpertDto : expertDtos)
+            for (ExpertDto myExpertDto : expertDtoSet)
                 expertDto = myExpertDto;
-            Set<SubServiceDto> subServiceDtos = expertAndSubservices.get(expertDto);
+            Set<SubServiceDto> subServiceDtoSet = expertAndSubservices.get(expertDto);
             assert expertDto != null;
-            expertDto.setSubServiceDtos(subServiceDtos);
+            expertDto.setSubServiceDtos(subServiceDtoSet);
             SubServiceDto subServiceDto = subServiceService.findSubServiceByName(subServiceName);
             managerService.addSubServices(expertDto, subServiceDto);
-            model.addAttribute("succ_massage", "successfuly added");
+            model.addAttribute("succ_massage", "successfully added");
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
         }
@@ -131,7 +131,7 @@ public class ManagerController {
             model.addAttribute("error_massage", e.getLocalizedMessage());
             return "manager/add_service";
         }
-        model.addAttribute("succ_massage", "successfuly added");
+        model.addAttribute("succ_massage", "successfully added");
         return "manager/add_service";
     }
 
@@ -147,7 +147,7 @@ public class ManagerController {
     public String addNewSubService(@Validated @ModelAttribute("subservice") SubServiceRequestDto subServiceRequestDto, Model model) {
         try {
             subServiceService.addNewSubService(subServiceRequestDto);
-            model.addAttribute("succ_massage", "successfuly added");
+            model.addAttribute("succ_massage", "successfully added");
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
         }

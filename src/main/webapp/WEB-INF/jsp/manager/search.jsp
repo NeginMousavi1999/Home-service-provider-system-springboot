@@ -150,7 +150,7 @@
                                 </td>
 
                                 <td>
-                                    <c:if test="${user.userStatus.toString() eq 'WAITING'}">
+                                    <c:if test="${user.userStatus.toString() eq 'WAITING' and user.userRole.toString() eq 'EXPERT'}">
                                         <a href="/portal/admin/dashboard/confirm/${user.identity}">confirm user</a>
                                     </c:if>
                                     <c:if test="${user.userStatus.toString() eq 'CONFIRMED' and user.userRole.toString() eq 'EXPERT'}">
