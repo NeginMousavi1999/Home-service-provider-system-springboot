@@ -11,11 +11,8 @@ import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,9 +35,6 @@ public class SystemController {
     private final ExpertService expertService;
     private final RegistrationListener registrationListener;
     private final ModelMapper modelMapper = new ModelMapper();
-
-    @Autowired
-    ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/")
     public ModelAndView login() {
@@ -87,7 +81,7 @@ public class SystemController {
     @PostMapping("/doRegister")
     public String doRegister(@RequestParam("file") MultipartFile file,
                              @ModelAttribute("registerData") @Validated UserDto userDto,
-                             Model model, HttpServletRequest request, Errors errors) {
+                             Model model, HttpServletRequest request) {
         HttpSession session;
         userDto.setUserStatus(UserStatus.WAITING);
 
