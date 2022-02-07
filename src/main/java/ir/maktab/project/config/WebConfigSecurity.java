@@ -1,6 +1,6 @@
-/*
 package ir.maktab.project.config;
 
+import ir.maktab.project.data.repository.ManagerRepository;
 import ir.maktab.project.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-*/
 /*
- * @author Negin Mousavi
- *//*
+    @author Negin Mousavi
+*/
 
 
 @Configuration
@@ -24,14 +24,24 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    public WebConfigSecurity(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
+
     @Bean
     public org.springframework.security.core.userdetails.UserDetailsService userDetailsService() {
-        return new SystemUserDetailsService(userRepository, passwordEncoder());
+        return new SystemUserDetailsService(userRepository, passwordEncoder(), managerRepository);
     }
 
     @Override
@@ -39,30 +49,17 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/register").permitAll()
+/*                .antMatchers( "/css/**", "/images/**", "/js/**").permitAll()*/
+                .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/")
-                .loginProcessingUrl("/doLogin")
-*/
-/*
-                .defaultSuccessUrl("/homepage.html", true)
-*//*
-
-                .failureUrl("/login?error=true")
-*/
-/*
-                .failureHandler(authenticationFailureHandler())
-*//*
-
- */
-/*                .usernameParameter("email")
-                .passwordParameter("password")*//*
-
+                .loginPage("/login")
+                .successHandler(authenticationSuccessHandler)
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and().csrf().disable();
     }
 }
-*/

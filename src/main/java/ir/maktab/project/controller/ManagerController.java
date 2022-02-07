@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,27 +33,6 @@ public class ManagerController {
     @GetMapping("/dashboard")
     public String showDashboard() {
         return "/manager/manager_dashboard";
-    }
-
-    @GetMapping("/login")
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        modelAndView.getModelMap().addAttribute("loginData", new LoginDto());
-        return modelAndView;
-    }
-
-    @PostMapping("/doLogin")
-    public String doLogin(@ModelAttribute("loginData") @Validated LoginDto loginDto, Model model) {
-        ManagerDto managerDto;
-        try {
-            managerDto = managerService.findByUserNameAndPassword(loginDto);
-            model.addAttribute("managerDto", managerDto);
-            return "manager/manager_dashboard";
-        } catch (Exception e) {
-            model.addAttribute("massage", e.getLocalizedMessage());
-            return "login";
-        }
     }
 
     @GetMapping("/dashboard/search")

@@ -15,19 +15,19 @@
                 <div class="col-md-7">
                     <h3>Login to <strong>Home Service Provider System</strong></h3>
                     <p class="mb-4">Thanks for choosing us ^_^</p>
-                    <div id="massage" style="color: red">${massage}</div>
 
-                    <%--@elvariable id="loginData" type="antlr"--%>
-                    <form:form action="doLogin" modelAttribute="loginData" method="post">
+                    <form action="/login" method="post">
                         <div class="form-group first">
-                            <form:input path="username" placeholder='username'/>
+                            <label>
+                                <input type="text" name="username"/>
+                            </label>
                             <br>
-                            <form:errors path="username" cssStyle="color: red"/>
                         </div>
                         <div class="form-group last mb-3">
-                            <form:password path="password" placeholder='password'/>
+                            <label>
+                                <input type="password" name="password"/>
+                            </label>
                             <br>
-                            <form:errors path="password" cssStyle="color: red"/>
                         </div>
 
                         <div class="d-flex mb-5 align-items-center">
@@ -40,7 +40,7 @@
                         <p class="mb-4">Don't have an account yet? <a
                                 href="${pageContext.request.contextPath}/register">Register!</a></p>
                         <input type="submit" value="Login" class="btn btn-block btn-primary"/>
-                    </form:form>
+                    </form>
                 </div>
             </div>
         </div>

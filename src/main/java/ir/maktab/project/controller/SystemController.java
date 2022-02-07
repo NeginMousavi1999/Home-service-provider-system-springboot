@@ -30,45 +30,10 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class SystemController {
-    private final UserService userService;
     private final CustomerService customerService;
     private final ExpertService expertService;
     private final RegistrationListener registrationListener;
     private final ModelMapper modelMapper = new ModelMapper();
-
-    @GetMapping("/")
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        modelAndView.getModelMap().addAttribute("loginData", new LoginDto());
-        return modelAndView;
-    }
-
-    @PostMapping("/doLogin")
-    public String doLogin(@ModelAttribute("loginData") @Validated LoginDto loginDto, Model model, HttpServletRequest request) {
-        UserDto user;
-        HttpSession session;
-        try {
-            user = userService.findUserByUserNameAndPassword(loginDto);
-            switch (user.getUserRole()) {
-                case CUSTOMER:
-                    CustomerDto customerDto = customerService.findByEmail(user.getEmail());
-                    session = request.getSession();
-                    session.setAttribute("customerDto", customerDto);
-                    return "redirect:/customer/dashboard";
-                case EXPERT:
-                    ExpertDto expertDto = expertService.findByEmail(user.getEmail());
-                    session = request.getSession();
-                    session.setAttribute("expertDto", expertDto);
-                    return "redirect:/expert/dashboard";
-                default:
-                    return "login";
-            }
-        } catch (Exception e) {
-            model.addAttribute("massage", e.getLocalizedMessage());
-            return "login";
-        }
-    }
 
     @GetMapping("/register")
     public ModelAndView register() {

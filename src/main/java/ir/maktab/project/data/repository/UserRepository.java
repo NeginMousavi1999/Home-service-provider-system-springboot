@@ -46,4 +46,6 @@ public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecif
     @Modifying
     @Query(value = "update User u set u.userStatus=:userStatus where u.id=:id")
     void updateStatus(@Param("id") long id, @Param("userStatus") UserStatus userStatus);
+
+    Optional<User> findByEmail(String email);
 }
