@@ -21,11 +21,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableWebSecurity
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,8 +33,11 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
-    public WebConfigSecurity(AuthenticationSuccessHandler authenticationSuccessHandler) {
+    public WebConfigSecurity(AuthenticationSuccessHandler authenticationSuccessHandler
+            , UserRepository userRepository, ManagerRepository managerRepository) {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.userRepository = userRepository;
+        this.managerRepository = managerRepository;
     }
 
     @Bean
