@@ -2,13 +2,11 @@ package ir.maktab.project.controller;
 
 import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.ExpertDto;
-import ir.maktab.project.data.dto.LoginDto;
 import ir.maktab.project.data.dto.UserDto;
 import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.ExpertService;
-import ir.maktab.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -83,5 +81,12 @@ public class SystemController {
         session = request.getSession();
         session.setAttribute("customerDto", customerDto);
         return "customer/customer_dashboard";
+    }
+
+    @GetMapping("/error")
+    public String error(Model model){
+        model.addAttribute("message"
+                , "ERROR!");
+        return "error_system";
     }
 }
