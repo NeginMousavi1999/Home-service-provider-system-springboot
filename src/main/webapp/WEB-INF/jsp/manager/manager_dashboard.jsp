@@ -4,8 +4,8 @@
 <html>
 <head>
     <title>Manager Dashboard</title>
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../resources/static/css/dashboard_style.css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/dashboard_style.css"/>">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow-style">
@@ -22,7 +22,7 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li>
                     <a class="btn btn-outline-primary my-2 my-sm-0"
-                       href="${pageContext.request.contextPath}/portal/admin/login">Logout</a>
+                       href="${pageContext.request.contextPath}/login">Logout</a>
                 </li>
             </ul>
         </div>

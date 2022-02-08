@@ -1,14 +1,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="../../resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../resources/static/css/login_style.css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/login_style.css"/>">
 </head>
 <body>
 <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('../../resources/static/images/bg_1.jpg');"></div>
+    <div class="bg order-1 order-md-2" style="background-image: url('/images/bg_1.jpg');"></div>
     <div class="contents order-2 order-md-1">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -19,13 +20,13 @@
                     <form action="/login" method="post">
                         <div class="form-group first">
                             <label>
-                                <input type="text" name="username"/>
+                                <input type="text" name="username" placeholder="username"/>
                             </label>
                             <br>
                         </div>
                         <div class="form-group last mb-3">
                             <label>
-                                <input type="password" name="password"/>
+                                <input type="password" name="password" placeholder="password"/>
                             </label>
                             <br>
                         </div>
@@ -46,8 +47,8 @@
         </div>
     </div>
 </div>
-<script src="../../resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="../../resources/static/js/popper.min.js"></script>
-<script src="../../resources/static/js/bootstrap.min.js"></script>
+<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 </body>
 </html>

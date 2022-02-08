@@ -50,7 +50,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/register", "/doRegister", "/error").permitAll()
-/*                .antMatchers( "/css/**", "/images/**", "/js/**").permitAll()*/
+                .antMatchers( "/css/**", "/images/**", "/js/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -64,3 +64,4 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
     }
 }
+//git commit -m 'fix the bug of not loading static files'

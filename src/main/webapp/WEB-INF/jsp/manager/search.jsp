@@ -5,8 +5,8 @@
 <html>
 <head>
     <title>search and filter users</title>
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../resources/static/css/dashboard_style.css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/dashboard_style.css"/>">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow-style">

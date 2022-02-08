@@ -1,16 +1,17 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Register</title>
-    <link rel="stylesheet" href="../../resources/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../resources/static/css/login_style.css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/login_style.css"/>">
 </head>
 <body>
 <div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('../../resources/static/images/bg_1.jpg');"></div>
+    <div class="bg order-1 order-md-2" style="background-image: url('/images/bg_1.jpg');"></div>
     <div class="contents order-2 order-md-1">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -69,9 +70,9 @@
         </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/resources/static/js/jquery-3.3.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/popper.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/register.js"></script>
+<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/js/register.js"/>"></script>
 </body>
 </html>
