@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /*
     @author Negin Mousavi
@@ -60,8 +61,12 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/sign_out"))
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
                 .permitAll()
                 .and().csrf().disable();
     }
 }
-//git commit -m 'fix the bug of not loading static files'
