@@ -142,4 +142,10 @@ public class ExpertServiceImpl implements ExpertService {
             throw new HomeServiceException("no such expert!");
         return ExpertMapper.mapExpertToExpertDto(expert.get());
     }
+
+    @Override
+    public void confirmEmail(ExpertDto expertDto) {
+        expertDto.setUserStatus(UserStatus.WAITING);
+        update(expertDto);
+    }
 }

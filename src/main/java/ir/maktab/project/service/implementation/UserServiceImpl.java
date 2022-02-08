@@ -1,13 +1,13 @@
 package ir.maktab.project.service.implementation;
 
-import ir.maktab.project.data.dto.LoginDto;
-import ir.maktab.project.data.dto.UserDto;
-import ir.maktab.project.data.dto.UserRequestDto;
+import ir.maktab.project.data.dto.*;
 import ir.maktab.project.data.entity.members.User;
+import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.UserRepository;
 import ir.maktab.project.exception.HomeServiceException;
 import ir.maktab.project.service.UserService;
+import ir.maktab.project.service.VerificationTokenService;
 import ir.maktab.project.util.mapper.UserMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @Getter
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final VerificationTokenService verificationTokenService;
 
     public UserDto findUserByUserNameAndPassword(LoginDto loginDto) {
         Optional<User> user = userRepository.findByEmailAndPassword(loginDto.getUsername(), loginDto.getPassword());
@@ -53,5 +54,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserStatus(int identity, UserStatus userStatus) {
         userRepository.updateStatus(identity - 1000, userStatus);
+    }
+
+    @Override
+    public void createVerificationToken(UserDto userDto, String token) {
+        VerificationTokenDto myToken = new VerificationTokenDto(token, userDto);
+        verificationTokenService.save(myToken);
+    }
+
+    @Override
+    public VerificationTokenDto getVerificationToken(String VerificationToken) {
+        return verificationTokenService.findByToken(VerificationToken);
+    }
+
+    @Override
+    public UserDto getCustomerDtoByVerificationToken(String verificationToken) {
+        return verificationTokenService.findByToken(verificationToken).getUserDto();
+    }
+
+    public void usedToken(VerificationTokenDto verificationToken) {
+        verificationTokenService.hasUsedToken(verificationToken);
     }
 }

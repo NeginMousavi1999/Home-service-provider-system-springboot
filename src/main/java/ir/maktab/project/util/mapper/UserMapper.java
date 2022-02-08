@@ -23,6 +23,20 @@ public class UserMapper {
                 .build();
     }
 
+    public static User mapUserDtoToUser(UserDto userDto) {
+        return User.builder()
+                .id(userDto.getIdentity() - 1000)
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
+                .credit(userDto.getCredit())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .userRole(userDto.getUserRole())
+                .userStatus(userDto.getUserStatus())
+                .registrationDate(userDto.getRegistrationDate())
+                .build();
+    }
+
     public static UserDto mapCustomerToUserDto(CustomerDto customer) {
         return UserDto.builder()
                 .identity(customer.getIdentity())

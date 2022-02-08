@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -243,39 +242,5 @@ public class CustomerController {
         SuggestionDto suggestionDto = suggestions.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
         assert suggestionDto != null;
         return showOrderSuggestions(suggestionDto.getOrder().getIdentity(), request, model);
-    }
-
-    @GetMapping("/confirm")
-    public String confirmRegistration
-            (HttpServletRequest request, Model model, @RequestParam("token") String token) {
-
-        VerificationTokenDto verificationToken;
-        try {
-            verificationToken = customerService.getVerificationToken(token);
-        } catch (Exception exception) {
-            model.addAttribute("message", exception.getLocalizedMessage());
-            return "error_system";
-        }
-        if (verificationToken == null) {
-            model.addAttribute("message", "no such a verification token");
-            return "error_system";
-        }
-
-        CustomerDto customerDto = verificationToken.getCustomerDto();
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpireDate().getTime() - cal.getTime().getTime()) <= 0) {
-            model.addAttribute("message", "verification token expired!");
-            return "error_system";
-        }
-
-        if (verificationToken.getUsedCount() > 0) {
-            model.addAttribute("message"
-                    , "you are already confirmed and you can use registration link only once!");
-            return "error_system";
-        }
-        customerService.confirm(customerDto, verificationToken);
-        HttpSession session = request.getSession();
-        session.setAttribute("customerDto", customerDto);
-        return "redirect:/customer/dashboard";
     }
 }

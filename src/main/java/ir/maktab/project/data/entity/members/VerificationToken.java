@@ -25,9 +25,9 @@ public class VerificationToken {
 
     private String token;
 
-    @OneToOne(targetEntity = Customer.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "customer_id")
-    private Customer customer;
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
 
     private Date expireDate;
 

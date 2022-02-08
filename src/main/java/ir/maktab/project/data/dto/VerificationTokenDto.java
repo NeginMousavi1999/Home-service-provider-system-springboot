@@ -21,14 +21,14 @@ public class VerificationTokenDto {
 
     private String token;
 
-    private CustomerDto customerDto;
+    private UserDto userDto;
 
     private Date expireDate;
 
     private int usedCount;
 
-    public VerificationTokenDto(String token, CustomerDto customerDto) {
+    public VerificationTokenDto(String token, UserDto userDto) {
         this.token = token;
-        this.customerDto = customerDto;
+        this.userDto = userDto;
     }
 }

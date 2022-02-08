@@ -1,6 +1,6 @@
 package ir.maktab.project.controller;
 
-import ir.maktab.project.data.dto.CustomerDto;
+import ir.maktab.project.data.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -15,11 +15,11 @@ import java.util.Locale;
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
     private final String appUrl;
     private final Locale locale;
-    private final CustomerDto customerDto;
+    private final UserDto userDto;
 
-    public OnRegistrationCompleteEvent(CustomerDto customerDto, Locale locale, String appUrl) {
-        super(customerDto);
-        this.customerDto = customerDto;
+    public OnRegistrationCompleteEvent(UserDto userDto, Locale locale, String appUrl) {
+        super(userDto);
+        this.userDto = userDto;
         this.locale = locale;
         this.appUrl = appUrl;
     }

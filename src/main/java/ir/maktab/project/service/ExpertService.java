@@ -35,4 +35,6 @@ public interface ExpertService {
     List<SuggestionDto> getSuggestions(ExpertDto expertDto);
 
     ExpertDto findById(int identity);
+
+    void confirmEmail(ExpertDto expertDto);
 }

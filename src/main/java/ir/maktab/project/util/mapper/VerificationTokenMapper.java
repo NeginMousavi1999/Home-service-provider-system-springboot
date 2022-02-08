@@ -14,14 +14,14 @@ public class VerificationTokenMapper {
                 .id(tokenDto.getIdentity() - suffix)
                 .usedCount(tokenDto.getUsedCount())
                 .expireDate(tokenDto.getExpireDate())
-                .customer(CustomerMapper.mapCustomerDtoToCustomer(tokenDto.getCustomerDto()))
+                .user(UserMapper.mapUserDtoToUser(tokenDto.getUserDto()))
                 .token(tokenDto.getToken())
                 .build();
     }
 
     public static VerificationToken mapVerificationTokenDtoToVerificationTokenForSaving(VerificationTokenDto tokenDto) {
         return VerificationToken.builder()
-                .customer(CustomerMapper.mapCustomerDtoToCustomer(tokenDto.getCustomerDto()))
+                .user(UserMapper.mapUserDtoToUser(tokenDto.getUserDto()))
                 .expireDate(tokenDto.getExpireDate())
                 .token(tokenDto.getToken())
                 .usedCount(0)
@@ -31,7 +31,7 @@ public class VerificationTokenMapper {
     public static VerificationTokenDto mapVerificationTokenToVerificationTokenDto(VerificationToken token) {
         return VerificationTokenDto.builder()
                 .identity(token.getId() + suffix)
-                .customerDto(CustomerMapper.mapCustomerToCustomerDto(token.getCustomer()))
+                .userDto(UserMapper.mapUserToUserDto(token.getUser()))
                 .expireDate(token.getExpireDate())
                 .token(token.getToken())
                 .usedCount(token.getUsedCount())

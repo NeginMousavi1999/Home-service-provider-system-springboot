@@ -29,11 +29,5 @@ public interface CustomerService {
 
     List<CustomerDto> getAll();
 
-    void createVerificationToken(CustomerDto user, String token);
-
-    VerificationTokenDto getVerificationToken(String VerificationToken);
-
-    CustomerDto getCustomerDtoByVerificationToken(String verificationToken);
-
-    void confirm(CustomerDto customerDto, VerificationTokenDto verificationToken);
+    void confirmEmail(CustomerDto customerDto);
 }
