@@ -108,8 +108,6 @@ public class ExpertServiceImpl implements ExpertService {
                 .suggestionStatus(SuggestionStatus.NEW)
                 .build();
         orderDto.setOrderStatus(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION);
-        suggestionDtoSet.add(suggestionDto);
-        orderDto.setSuggestions(suggestionDtoSet);
         suggestionService.addNewSuggestion(suggestionDto, orderDto);
     }
 
