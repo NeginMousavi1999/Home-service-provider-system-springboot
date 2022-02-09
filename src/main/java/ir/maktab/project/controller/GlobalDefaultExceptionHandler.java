@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalDefaultExceptionHandler {
     @ExceptionHandler(value = BindException.class)
     public ModelAndView bindExceptionHandler(BindException bindException, HttpServletRequest request) {
-        String lastView = (String) request.getSession().getAttribute(LastViewInterceptor.LAST_VIEW_ATTRIBIUTE);
+        String lastView = (String) request.getSession().getAttribute(LastViewInterceptor.LAST_VIEW_ATTRIBUTE);
         return new ModelAndView(lastView, bindException.getBindingResult().getModel());
     }
 }
