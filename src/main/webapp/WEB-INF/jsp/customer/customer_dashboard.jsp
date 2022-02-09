@@ -36,7 +36,7 @@
 <div class="main">
     <div class="row">
         <div class="col-2">
-            <div class="custome-sidebar">
+            <div class="custom-sidebar">
                 <div>
                     <a href="${pageContext.request.contextPath}/customer/all_orders">Orders</a>
                     <a href="${pageContext.request.contextPath}/customer/change_password">change password</a>

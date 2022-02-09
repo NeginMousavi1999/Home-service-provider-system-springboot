@@ -32,13 +32,14 @@
 <div class="main">
     <div class="row">
         <div class="col-2">
-            <div class="custome-sidebar">
+            <div class="custom-sidebar">
                 <div>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/add_service">Add new Service to
                         System</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/add_subservice">Add new Sub
                         Service to System</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/search">Users</a>
+                    <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_orders">Orders History</a>
                 </div>
             </div>
         </div>

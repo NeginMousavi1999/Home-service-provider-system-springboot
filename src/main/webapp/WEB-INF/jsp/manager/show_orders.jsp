@@ -37,61 +37,87 @@
 <br><br>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="col-12">
-        <form:form action="doFilter" modelAttribute="filterData" method="post">
-            <table class="table table-bordered table-striped text-dark">
+        <form id="search-form">
+            <table class="table table-bordered table-striped text-dark text-center">
                 <thead>
                 <tr>
-                    <th colspan="9" style="text-align: center; border: none">
-                        Filter Users
+                    <th colspan="6" style="text-align: center; border: none">
+                        Filter Orders
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <label>from date</label>
+                    </th>
+                    <th>
+                        <label>to date</label>
+                    </th>
+                    <th>
+                        <label>status</label>
+                    </th>
+                    <th>
+                        <label>service name</label>
+                    </th>
+                    <th>
+                        <label>sub service name</label>
+                    </th>
+                    <th>
+                        <label>action</label>
                     </th>
                 </tr>
                 </thead>
+                <tbody>
                 <tr>
-                    <th>
-                        <label>first name</label>
-                    </th>
+
                     <td>
                         <label>
-                            <form:input path="firstName"/>
+                            <input type="text" name="fromDate" id="fromDate"/>
                         </label>
                     </td>
-                    <th>
-                        <label>last name</label>
-                    </th>
+
                     <td>
                         <label>
-                            <form:input path="lastName"/>
+                            <input type="text" name="toDate" id="toDate"/>
                         </label>
                     </td>
-                    <th>
-                        <label>email</label>
-                    </th>
+
                     <td>
                         <label>
-                            <form:input path="email"/>
+                            <input type="text" name="status" id="status"/>
                         </label>
                     </td>
-                    <th>
-                        <label>role</label>
-                    </th>
+
                     <td>
                         <label>
-                            customer <form:radiobutton id="customer" value="CUSTOMER" path="userRole"
-                                                       onclick="customerFunction()"/>
-                            expert <form:radiobutton id="expert" value="EXPERT" path="userRole"
-                                                     onclick="expertFunction()"/>
+                            <input type="text" name="serviceName" id="serviceName"/>
                         </label>
                     </td>
+
+                    <td>
+                        <label>
+                            <input type="text" name="subServiceName" id="subServiceName"/>
+                        </label>
+                    </td>
+
                     <td>
                         <input id="submit_input" type="submit" value="Submit" class="btn btn-block btn-primary"/>
+                       <%-- <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" id="bth-search"
+                                        class="btn btn-primary btn-lg">Search
+                                </button>
+                            </div>
+                        </div>--%>
                     </td>
                 </tr>
+                </tbody>
             </table>
-        </form:form>
+        </form>
     </div>
 </nav>
 <br><br>
-<c:if test="${users.size() gt 0}">
+<div id="feedback"></div>
+<%--<c:if test="${users.size() gt 0}">
     <div class="contents order-2 order-md-1">
         <div class="container">
             <div class="row align-items-center justify-content-center mb-5">
@@ -166,7 +192,10 @@
             </div>
         </div>
     </div>
-</c:if>
-<script src="<c:url value="/js/register.js"/>"></script>
+</c:if>--%>
+<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/manager.js"/>"></script>
 </body>
 </html>

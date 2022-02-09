@@ -7,7 +7,6 @@ import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -39,18 +38,16 @@ public class ManagerRestController {
 
     @PostMapping(value = "get_by_conditions")
     @ResponseBody
-    public List<OrderDto> getAllOrdersByConditions(@Validated @RequestBody OrdersHistoryDto conditions) {
+    public List<OrderDto> getAllOrdersByConditions(OrdersHistoryDto conditions) {
         return orderService.filteredOrders(conditions);
     }
 
-    @GetMapping("get_reportes")
+    @GetMapping("get_reports")
     @ResponseBody
-    public Map<UserDto, Integer> getUsersReportes() {
+    public Map<UserDto, Integer> getUsersReports() {
         HashMap<UserDto, Integer> map = new HashMap<>();
-        Map<UserDto, Integer> customers = customerService
-                .getCustomerAndNumberOfRegisteredRequests();
-        Map<UserDto, Integer> experts = expertService
-                .getExpertAndNumberOfRegisteredRequests();
+        Map<UserDto, Integer> customers = customerService.getCustomerAndNumberOfRegisteredRequests();
+        Map<UserDto, Integer> experts = expertService.getExpertAndNumberOfRegisteredRequests();
         map.putAll(customers);
         map.putAll(experts);
         return map;
