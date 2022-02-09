@@ -41,6 +41,7 @@
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/search">Users</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_orders">Orders History</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_services_history">Services History</a>
+                    <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_users_request">Users Reports</a>
                 </div>
             </div>
         </div>

@@ -141,4 +141,9 @@ public class ManagerController {
     public String showServicesHistory() {
         return "manager/show_services_history";
     }
+
+    @GetMapping("/dashboard/show_users_request")
+    public String showUsersRequest() {
+        return "manager/show_users_request";
+    }
 }
