@@ -101,13 +101,13 @@
 
                     <td>
                         <input id="submit_input" type="submit" value="Submit" class="btn btn-block btn-primary"/>
-                       <%-- <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" id="bth-search"
-                                        class="btn btn-primary btn-lg">Search
-                                </button>
-                            </div>
-                        </div>--%>
+                        <%-- <div class="form-group">
+                             <div class="col-sm-offset-2 col-sm-10">
+                                 <button type="submit" id="bth-search"
+                                         class="btn btn-primary btn-lg">Search
+                                 </button>
+                             </div>
+                         </div>--%>
                     </td>
                 </tr>
                 </tbody>
@@ -116,83 +116,53 @@
     </div>
 </nav>
 <br><br>
-<div id="feedback"></div>
-<%--<c:if test="${users.size() gt 0}">
-    <div class="contents order-2 order-md-1">
-        <div class="container">
-            <div class="row align-items-center justify-content-center mb-5">
-                <div class="col-12">
-                    <table class="table table-bordered table-striped text-dark">
-                        <thead>
-                        <tr>
-                            <th colspan="7" style="text-align: center">
-                                result
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>
-                                first name
-                            </th>
-                            <th>
-                                last name
-                            </th>
-                            <th>
-                                email
-                            </th>
-                            <th>
-                                role
-                            </th>
-                            <th>
-                                registration date
-                            </th>
-                            <th>
-                                status
-                            </th>
-                            <th>
-                                actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                        ${user.firstName}
-                                </td>
-                                <td>
-                                        ${user.lastName}
-                                </td>
-                                <td>
-                                        ${user.email}
-                                </td>
-                                <td>
-                                        ${user.userRole}
-                                </td>
-                                <td>
-                                        ${user.registrationDate}
-                                </td>
-                                <td>
-                                        ${user.userStatus}
-                                </td>
 
-                                <td>
-                                    <c:if test="${user.userStatus.toString() eq 'WAITING' and user.userRole.toString() eq 'EXPERT'}">
-                                        <a href="/portal/admin/dashboard/confirm/${user.identity}">confirm user</a>
-                                    </c:if>
-                                    <c:if test="${user.userStatus.toString() eq 'CONFIRMED' and user.userRole.toString() eq 'EXPERT'}">
-                                        <a href="/portal/admin/dashboard/show_subservices_for_expert/${user.identity}">add
-                                            sub service</a>
-                                    </c:if>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+<div class="contents order-2 order-md-1" id="response" style="display: none">
+    <div class="container">
+        <div class="row align-items-center justify-content-center mb-5">
+            <div class="col-12">
+                <table class="table table-bordered table-striped text-dark text-center" style="margin-left: -4%">
+                    <thead>
+                    <tr>
+                        <th colspan="8">
+                            result
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Order status
+                        </th>
+                        <th>
+                            registration date
+                        </th>
+                        <th>
+                            to be done date
+                        </th>
+                        <th>
+                            address
+                        </th>
+                        <th>
+                            customer username
+                        </th>
+                        <th>
+                            expert username
+                        </th>
+                        <th>
+                            description
+                        </th>
+                        <th>
+                            final price
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="response-body">
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</c:if>--%>
+</div>
 <script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
 <script src="<c:url value="/js/popper.min.js"/>"></script>
 <script src="<c:url value="/js/bootstrap.min.js"/>"></script>

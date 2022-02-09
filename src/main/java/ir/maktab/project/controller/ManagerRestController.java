@@ -38,7 +38,7 @@ public class ManagerRestController {
 
     @PostMapping(value = "get_by_conditions")
     @ResponseBody
-    public List<OrderDto> getAllOrdersByConditions(OrdersHistoryDto conditions) {
+    public List<OrderDto> getAllOrdersByConditions(@RequestBody OrdersHistoryDto conditions) {
         return orderService.filteredOrders(conditions);
     }
 
