@@ -1,6 +1,7 @@
 package ir.maktab.project.util.mapper;
 
 import ir.maktab.project.data.dto.SubServiceDto;
+import ir.maktab.project.data.entity.services.Service;
 import ir.maktab.project.data.entity.services.SubService;
 
 /**
@@ -28,11 +29,15 @@ public class SubServiceMapper {
     }
 
     public static SubServiceDto mapSubServiceToSubServiceDto(SubService subService) {
-        return SubServiceDto.builder()
+        SubServiceDto subServiceDto = SubServiceDto.builder()
                 .identity(subService.getId() + suffix)
                 .name(subService.getName())
                 .cost(subService.getCost())
                 .description(subService.getDescription())
                 .build();
+        Service service = subService.getService();
+        if (service != null)
+            subServiceDto.setService(ServiceMapper.mapServiceToServiceDto(service));
+        return subServiceDto;
     }
 }

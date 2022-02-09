@@ -105,7 +105,7 @@ function getCustomerServices() {
             for (let i = 0; i < data.length; i++) {
                 let order = data[i];
                 let row = "<tr>\n" +
-                    "                        <td>\n" + "subserviceName" /*order.subService.service.name*/ +
+                    "                        <td>\n" + order.subService.service.name +
                     "                        </td>\n" +
                     "                        <td>\n" + order.subService.name +
                     "                        </td>\n" +
