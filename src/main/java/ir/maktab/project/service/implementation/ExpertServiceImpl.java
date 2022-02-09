@@ -95,10 +95,10 @@ public class ExpertServiceImpl implements ExpertService {
     public void addNewSuggestion(String date, double suggestedPrice, int durationOfWork, OrderDto orderDto, ExpertDto expertDto) {
         if (suggestedPrice < orderDto.getSubService().getCost())
             throw new HomeServiceException("suggested price can not be less than subservice price!");
-        Set<SuggestionDto> orderDtoSuggestions = suggestionService.getByOrder(orderDto);
-        orderDto.setSuggestions(orderDtoSuggestions);
+        Set<SuggestionDto> suggestionDtoSet = suggestionService.getByOrder(orderDto);
+        orderDto.setSuggestions(suggestionDtoSet);
         validation.validateUserStatus(UserStatus.CONFIRMED, expertDto.getUserStatus());
-        orderDto.setSuggestions(orderDtoSuggestions);
+        orderDto.setSuggestions(suggestionDtoSet);
         SuggestionDto suggestionDto = SuggestionDto.builder()
                 .expert(expertDto)
                 .order(orderDto)
@@ -108,8 +108,8 @@ public class ExpertServiceImpl implements ExpertService {
                 .suggestionStatus(SuggestionStatus.NEW)
                 .build();
         orderDto.setOrderStatus(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION);
-        orderDtoSuggestions.add(suggestionDto);
-        orderDto.setSuggestions(orderDtoSuggestions);
+        suggestionDtoSet.add(suggestionDto);
+        orderDto.setSuggestions(suggestionDtoSet);
         suggestionService.addNewSuggestion(suggestionDto, orderDto);
     }
 

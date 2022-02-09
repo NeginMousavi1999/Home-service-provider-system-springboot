@@ -23,7 +23,7 @@ public class SuggestionMapper {
                 .durationOfWork(suggestionDto.getDurationOfWork())
                 .expert(ExpertMapper.mapExpertDtoToExpert(suggestionDto.getExpert()))
                 .suggestionStatus(suggestionDto.getSuggestionStatus())
-                .order(OrderMapper.mapOrderDtoToOrderForSavingSuggestion(suggestionDto.getOrder()))
+                .order(OrderMapper.mapOrderDtoToOrderWithId(suggestionDto.getOrder()))
                 .build();
     }
 

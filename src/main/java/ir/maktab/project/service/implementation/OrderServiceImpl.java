@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
         if (filteredOrders.isEmpty())
             throw new HomeServiceException("no ready orders!");
         return filteredOrders.get().stream()
-                .map(OrderMapper::mapOrderToOrderDtoForToBeSuggestioned).collect(Collectors.toList());
+                .map(OrderMapper::mapOrderToOrderDtoForToBeSuggested).collect(Collectors.toList());
     }
 
     public void update(OrderDto order) {

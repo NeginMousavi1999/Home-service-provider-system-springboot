@@ -35,8 +35,8 @@ public class SuggestionServiceImpl implements SuggestionService {
     private final int suffix = 1000;
 
     public void addNewSuggestion(SuggestionDto suggestionDto, OrderDto orderDto) {
-        orderService.updateStatus(orderDto);
         saveSuggestion(suggestionDto);
+        orderService.updateStatus(orderDto);
     }
 
     public void saveSuggestion(SuggestionDto suggestionDto) {

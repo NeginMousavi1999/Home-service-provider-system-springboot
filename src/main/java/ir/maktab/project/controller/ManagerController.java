@@ -131,4 +131,9 @@ public class ManagerController {
         }
         return showAddNewSubService(model);
     }
+
+    @GetMapping("/dashboard/show_orders")
+    public String showOrders() {
+        return "manager/show_orders";
+    }
 }
