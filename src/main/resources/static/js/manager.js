@@ -76,29 +76,101 @@ function show_orders() {
                 response = response + row;
             }
 
-
-            /*            let json = "<h4>Ajax Response</h4>&lt;pre&gt;"
-                            + JSON.stringify(data, null, 4) + "&lt;/pre&gt;";*/
-
             $('#response-body').html(response);
 
-            /*console.log("SUCCESS : ", data);*/
             $("#btn-search").prop("disabled", false);
 
             $("#response").show();
 
         },
         error: function (e) {
-
-            let json = "<h4>Ajax Response</h4>&lt;pre&gt;"
-                + e.responseText + "&lt;/pre&gt;";
-            $('#feedback').html(json);
-
             console.log("ERROR : ", e);
             $("#btn-search").prop("disabled", false);
             console.log(this.data);
-
         }
     });
+}
 
+function getCustomerServices() {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/admin/get_customers_services",
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            $("#response-services").text("");
+            let response;
+            for (let i = 0; i < data.length; i++) {
+                let order = data[i];
+                let row = "<tr>\n" +
+                    "                        <td>\n" + "subserviceName" /*order.subService.service.name*/ +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.cost +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.description +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.registrationDate +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.customer.email +
+                    "                    </tr>";
+                response = response + row;
+            }
+
+            $('#response-services').html(response);
+            $("#userRole").text("customer");
+            $("#response").show();
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btn-search").prop("disabled", false);
+            console.log(this.data);
+        }
+    });
+}
+
+function getExpertServices() {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/admin/get_experts_services",
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            $("#response-services").text("");
+            let response;
+            for (let i = 0; i < data.length; i++) {
+                let order = data[i];
+                let row = "<tr>\n" +
+                    "                        <td>\n" + order.subService.service.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.cost +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.description +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.registrationDate +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.expert.email +
+                    "                    </tr>";
+                response = response + row;
+            }
+
+            $('#response-services').html(response);
+            $("#userRole").text("expert");
+            $("#response").show();
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btn-search").prop("disabled", false);
+            console.log(this.data);
+        }
+    });
 }

@@ -136,4 +136,9 @@ public class ManagerController {
     public String showOrders() {
         return "manager/show_orders";
     }
+
+    @GetMapping("/dashboard/show_services_history")
+    public String showServicesHistory() {
+        return "manager/show_services_history";
+    }
 }
