@@ -108,7 +108,7 @@
     <div class="container">
         <div class="row align-items-center justify-content-center mb-5">
             <div class="col-12">
-                <table class="table table-bordered table-striped text-dark text-center" style="margin-left: -4%">
+                <table class="table table-bordered table-striped text-dark text-center" style="margin-left: -6%">
                     <thead>
                     <tr>
                         <th colspan="7">
