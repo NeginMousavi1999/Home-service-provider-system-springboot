@@ -30,4 +30,6 @@ public interface CustomerService {
     List<CustomerDto> getAll();
 
     void confirmEmail(CustomerDto customerDto);
+
+    CustomerDto findByIdentity(int identity);
 }

@@ -106,4 +106,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setUserStatus(UserStatus.CONFIRMED);
         update(customerDto);
     }
+
+    @Override
+    public CustomerDto findByIdentity(int identity) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(identity - 1000);
+        if (optionalCustomer.isEmpty())
+            throw new HomeServiceException("customer not found");
+        return CustomerMapper.mapCustomerToCustomerDto(optionalCustomer.get());
+    }
 }

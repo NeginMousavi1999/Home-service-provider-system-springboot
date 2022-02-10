@@ -194,4 +194,12 @@ public class OrderServiceImpl implements OrderService {
     public int findNumberOfOrdersPlacedByExpert(ExpertDto expert) {
         return orderRepository.countByExpert(ExpertMapper.mapExpertDtoToExpert(expert));
     }
+
+    @Override
+    public List<OrderDto> getOrdersByExpert(ExpertDto expertDto) {
+        Optional<List<Order>> orders = orderRepository.findByExpert(ExpertMapper.mapExpertDtoToExpert(expertDto));
+        if (orders.isEmpty())
+            throw new HomeServiceException("not found!");
+        return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoWithoutSuggestion).collect(Collectors.toList());
+    }
 }

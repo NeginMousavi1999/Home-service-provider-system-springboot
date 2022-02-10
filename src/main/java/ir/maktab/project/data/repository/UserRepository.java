@@ -48,4 +48,6 @@ public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecif
     void updateStatus(@Param("id") long id, @Param("userStatus") UserStatus userStatus);
 
     Optional<User> findByEmail(String email);
+
+    Optional<User> findById(long id);
 }

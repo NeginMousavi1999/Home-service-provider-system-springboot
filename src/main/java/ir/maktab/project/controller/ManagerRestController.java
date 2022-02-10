@@ -1,14 +1,13 @@
 package ir.maktab.project.controller;
 
-import ir.maktab.project.data.dto.OrderDto;
-import ir.maktab.project.data.dto.OrdersHistoryDto;
-import ir.maktab.project.data.dto.UserDto;
+import ir.maktab.project.data.dto.*;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,5 +50,19 @@ public class ManagerRestController {
         map.putAll(customers);
         map.putAll(experts);
         return map;
+    }
+
+    @GetMapping("get_customer_services/{identity}")
+    @ResponseBody
+    public List<OrderDto> getServicesByCustomer(@PathVariable("identity") int identity) {
+        CustomerDto customerDto = customerService.findByIdentity(identity);
+        return new ArrayList<>(orderService.getOrdersByCustomer(customerDto));
+    }
+
+    @GetMapping("get_expert_services/{identity}")
+    @ResponseBody
+    public List<OrderDto> getServicesByExpert(@PathVariable("identity") int identity) {
+        ExpertDto expertDto = expertService.findById(identity);
+        return orderService.getOrdersByExpert(expertDto);
     }
 }

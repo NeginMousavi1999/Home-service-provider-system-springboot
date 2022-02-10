@@ -173,3 +173,81 @@ function getExpertServices() {
         }
     });
 }
+
+function customerService(id) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/admin/get_customer_services/" + id,
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            $("#response-services").text("");
+            let response;
+            for (let i = 0; i < data.length; i++) {
+                let order = data[i];
+                let row = "<tr>\n" +
+                    "                        <td>\n" + order.subService.service.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.cost +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.description +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.registrationDate +
+                    "                    </tr>";
+                response = response + row;
+            }
+
+            $('#response-services').html(response);
+            $("#response").show();
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btn-search").prop("disabled", false);
+            console.log(this.data);
+        }
+    });
+}
+
+function expertService(id) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/admin/get_expert_services/" + id,
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            $("#response-services").text("");
+            let response;
+            for (let i = 0; i < data.length; i++) {
+                let order = data[i];
+                let row = "<tr>\n" +
+                    "                        <td>\n" + order.subService.service.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.name +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.cost +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.subService.description +
+                    "                        </td>\n" +
+                    "                        <td>\n" + order.registrationDate +
+                    "                    </tr>";
+                response = response + row;
+            }
+
+            $('#response-services').html(response);
+            $("#response").show();
+
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btn-search").prop("disabled", false);
+            console.log(this.data);
+        }
+    });
+}

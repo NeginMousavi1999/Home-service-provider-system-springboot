@@ -1,6 +1,9 @@
 package ir.maktab.project.service;
 
-import ir.maktab.project.data.dto.*;
+import ir.maktab.project.data.dto.LoginDto;
+import ir.maktab.project.data.dto.UserDto;
+import ir.maktab.project.data.dto.UserRequestDto;
+import ir.maktab.project.data.dto.VerificationTokenDto;
 import ir.maktab.project.data.entity.members.User;
 import ir.maktab.project.data.enumuration.UserStatus;
 
@@ -28,4 +31,6 @@ public interface UserService {
     UserDto getCustomerDtoByVerificationToken(String verificationToken);
 
     void usedToken(VerificationTokenDto verificationToken);
+
+    UserDto findByIdentity(int identity);
 }

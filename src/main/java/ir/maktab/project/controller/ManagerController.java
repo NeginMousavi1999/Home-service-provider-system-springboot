@@ -146,4 +146,20 @@ public class ManagerController {
     public String showUsersRequest() {
         return "manager/show_users_request";
     }
+
+    @GetMapping("/dashboard/show_customer_services/{role}/{identity}")
+    public String showCustomerServices(@PathVariable("identity") int identity, @PathVariable("role") String role,
+                                       Model model) {
+        UserDto userDto = userService.findByIdentity(identity);
+        String fullName = userDto.getFirstName() + " " + userDto.getLastName();
+        if (role.equals("CUSTOMER")) {
+            model.addAttribute("customer_identity_showing_services", identity)
+                    .addAttribute("name", fullName);
+            return "manager/show_customer_services";
+        } else {
+            model.addAttribute("expert_identity_showing_services", identity)
+                    .addAttribute("name", fullName);
+            return "manager/show_expert_services";
+        }
+    }
 }

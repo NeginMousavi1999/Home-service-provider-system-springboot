@@ -83,3 +83,8 @@
         float: none;
     }
 }
+
+table {
+    text-transform: lowercase;
+    text-align: center;
+}

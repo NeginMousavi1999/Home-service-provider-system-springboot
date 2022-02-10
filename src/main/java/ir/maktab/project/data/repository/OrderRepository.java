@@ -86,4 +86,6 @@ public interface OrderRepository extends CrudRepository<Order, Integer>, JpaSpec
 
     Optional<Order> findByAddressAndCustomerAndSubServiceAndDescription(Address address, Customer customer,
                                                                         SubService subService, String description);
+
+    Optional<List<Order>> findByExpert(Expert mapExpertDtoToExpert);
 }

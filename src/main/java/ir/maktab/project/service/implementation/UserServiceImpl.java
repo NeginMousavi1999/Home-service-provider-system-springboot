@@ -1,8 +1,10 @@
 package ir.maktab.project.service.implementation;
 
-import ir.maktab.project.data.dto.*;
+import ir.maktab.project.data.dto.LoginDto;
+import ir.maktab.project.data.dto.UserDto;
+import ir.maktab.project.data.dto.UserRequestDto;
+import ir.maktab.project.data.dto.VerificationTokenDto;
 import ir.maktab.project.data.entity.members.User;
-import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.UserRepository;
 import ir.maktab.project.exception.HomeServiceException;
@@ -74,5 +76,13 @@ public class UserServiceImpl implements UserService {
 
     public void usedToken(VerificationTokenDto verificationToken) {
         verificationTokenService.hasUsedToken(verificationToken);
+    }
+
+    @Override
+    public UserDto findByIdentity(int identity) {
+        Optional<User> optionalUser = userRepository.findById(identity - 1000);
+        if (optionalUser.isEmpty())
+            throw new HomeServiceException("user not found");
+        return UserMapper.mapUserToUserDto(optionalUser.get());
     }
 }

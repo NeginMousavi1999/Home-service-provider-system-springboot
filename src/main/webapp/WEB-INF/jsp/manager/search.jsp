@@ -99,16 +99,16 @@
                     <table class="table table-bordered table-striped text-dark">
                         <thead>
                         <tr>
-                            <th colspan="7" style="text-align: center">
+                            <th colspan="5" style="text-align: center">
                                 result
+                            </th>
+                            <th colspan="3">
+                                actions
                             </th>
                         </tr>
                         <tr>
                             <th>
-                                first name
-                            </th>
-                            <th>
-                                last name
+                                name
                             </th>
                             <th>
                                 email
@@ -123,7 +123,13 @@
                                 status
                             </th>
                             <th>
-                                actions
+                                confirm
+                            </th>
+                            <th>
+                                add sub service
+                            </th>
+                            <th>
+                                services history
                             </th>
                         </tr>
                         </thead>
@@ -131,10 +137,7 @@
                         <c:forEach var="user" items="${users}">
                             <tr>
                                 <td>
-                                        ${user.firstName}
-                                </td>
-                                <td>
-                                        ${user.lastName}
+                                        ${user.firstName} ${user.lastName}
                                 </td>
                                 <td>
                                         ${user.email}
@@ -151,11 +154,19 @@
 
                                 <td>
                                     <c:if test="${user.userStatus.toString() eq 'WAITING' and user.userRole.toString() eq 'EXPERT'}">
-                                        <a href="/portal/admin/dashboard/confirm/${user.identity}">confirm user</a>
+                                        <a href="/portal/admin/dashboard/confirm/${user.identity}">click me</a>
                                     </c:if>
+                                </td>
+                                <td>
                                     <c:if test="${user.userStatus.toString() eq 'CONFIRMED' and user.userRole.toString() eq 'EXPERT'}">
-                                        <a href="/portal/admin/dashboard/show_subservices_for_expert/${user.identity}">add
-                                            sub service</a>
+                                        <a href="/portal/admin/dashboard/show_subservices_for_expert/${user.identity}">click
+                                            me</a>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${user.userStatus.toString() eq 'CONFIRMED'}">
+                                        <a href="/portal/admin/dashboard/show_customer_services/${user.userRole.toString()}/${user.identity}">click
+                                            me</a>
                                     </c:if>
                                 </td>
                             </tr>
@@ -167,6 +178,10 @@
         </div>
     </div>
 </c:if>
+<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/js/register.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/manager.js"/>"></script>
 </body>
 </html>
