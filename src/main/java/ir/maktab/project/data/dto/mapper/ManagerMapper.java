@@ -1,4 +1,4 @@
-package ir.maktab.project.util.mapper;
+package ir.maktab.project.data.dto.mapper;
 
 import ir.maktab.project.data.dto.ManagerDto;
 import ir.maktab.project.data.entity.members.Manager;

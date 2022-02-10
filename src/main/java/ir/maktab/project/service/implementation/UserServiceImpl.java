@@ -10,7 +10,7 @@ import ir.maktab.project.data.repository.UserRepository;
 import ir.maktab.project.exception.HomeServiceException;
 import ir.maktab.project.service.UserService;
 import ir.maktab.project.service.VerificationTokenService;
-import ir.maktab.project.util.mapper.UserMapper;
+import ir.maktab.project.data.dto.mapper.UserMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package ir.maktab.project.util.mapper;
+package ir.maktab.project.data.dto.mapper;
 
 import ir.maktab.project.data.dto.OrderDto;
 import ir.maktab.project.data.dto.SuggestionDto;

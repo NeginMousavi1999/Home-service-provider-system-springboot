@@ -5,7 +5,7 @@ import ir.maktab.project.data.entity.members.VerificationToken;
 import ir.maktab.project.data.repository.VerificationTokenRepository;
 import ir.maktab.project.exception.HomeServiceException;
 import ir.maktab.project.service.VerificationTokenService;
-import ir.maktab.project.util.mapper.VerificationTokenMapper;
+import ir.maktab.project.data.dto.mapper.VerificationTokenMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

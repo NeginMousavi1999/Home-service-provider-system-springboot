@@ -5,7 +5,7 @@ import ir.maktab.project.data.entity.services.Service;
 import ir.maktab.project.data.repository.ServiceRepository;
 import ir.maktab.project.exception.HomeServiceException;
 import ir.maktab.project.service.ServiceService;
-import ir.maktab.project.util.mapper.ServiceMapper;
+import ir.maktab.project.data.dto.mapper.ServiceMapper;
 import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package ir.maktab.project.util.mapper;
+package ir.maktab.project.data.dto.mapper;
 
 import ir.maktab.project.data.dto.ServiceDto;
 import ir.maktab.project.data.dto.SubServiceDto;
