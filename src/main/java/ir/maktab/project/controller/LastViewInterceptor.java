@@ -1,6 +1,7 @@
 package ir.maktab.project.controller;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author Negin Mousavi
  */
+@Component
 public class LastViewInterceptor implements HandlerInterceptor {
     public static final String LAST_VIEW_ATTRIBUTE = LastViewInterceptor.class.getName();
 
