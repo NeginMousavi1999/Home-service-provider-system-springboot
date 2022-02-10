@@ -8,6 +8,18 @@
     <title>Customer</title>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/dashboard_style.css"/>">
+    <style>
+        #ten-countdown {
+            /*border: 5px solid #fb771a;*/
+            display: inline;
+            padding: 5px;
+            color: #fb771a;
+            font-family: Verdana, sans-serif, Arial;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow-style">
@@ -34,6 +46,14 @@
                        href="${pageContext.request.contextPath}/sign_out">Logout</a>
                 </li>
             </ul>
+        </div>
+    </div>
+</nav>
+<br><br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="col-12 d-flex justify-content-center">
+        <div>
+            <div id="ten-countdown"></div>
         </div>
     </div>
 </nav>
@@ -105,34 +125,9 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    let IdealTimeOut = 100; //10 seconds
-    let idleSecondsTimer = null;
-    let idleSecondsCounter = 0;
-    document.onclick = function () {
-        idleSecondsCounter = 0;
-    };
-    document.onmousemove = function () {
-        idleSecondsCounter = 0;
-    };
-    document.onkeypress = function () {
-        idleSecondsCounter = 0;
-    };
-    idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
-
-    function CheckIdleTime() {
-        idleSecondsCounter++;
-        let oPanel = document.getElementById("timeOut");
-        if (oPanel) {
-            oPanel.innerHTML = (IdealTimeOut - idleSecondsCounter);
-        }
-        if (idleSecondsCounter >= IdealTimeOut) {
-            window.clearInterval(idleSecondsTimer);
-            alert("Your Session has expired. Please try again.");
-            window.location = "http://localhost:8080/customer/all_orders";
-        }
-    }
-</script>
+<script src="<c:url value="/js/jquery-3.3.1.min.js"/>"></script>
+<script src="<c:url value="/js/popper.min.js"/>"></script>
+<script src="<c:url value="/js/bootstrap.min.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/pay_online.js"/>"></script>
 </body>
 </html>
