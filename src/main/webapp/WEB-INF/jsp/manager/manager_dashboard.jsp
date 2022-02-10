@@ -40,7 +40,8 @@
                         Service to System</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/search">Users</a>
                     <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_orders">Orders History</a>
-                    <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_services_history">Services History</a>
+                    <a href="${pageContext.request.contextPath}/portal/admin/dashboard/show_services_history">Services
+                        History</a>
                 </div>
             </div>
         </div>

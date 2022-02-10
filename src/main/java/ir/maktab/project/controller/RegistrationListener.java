@@ -1,8 +1,6 @@
 package ir.maktab.project.controller;
 
-import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.UserDto;
-import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

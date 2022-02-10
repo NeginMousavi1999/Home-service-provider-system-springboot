@@ -41,8 +41,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="col-12 d-flex justify-content-center">
         <div>
-            <button class="btn btn-primary my-2 my-sm-0" onclick="customerService(${customer_identity_showing_services})">${name}
-                services</button>
+            <button class="btn btn-primary my-2 my-sm-0"
+                    onclick="customerService(${customer_identity_showing_services})">${name}
+                services
+            </button>
         </div>
     </div>
 </nav>

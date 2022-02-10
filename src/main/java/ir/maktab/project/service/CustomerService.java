@@ -2,7 +2,6 @@ package ir.maktab.project.service;
 
 import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.UserDto;
-import ir.maktab.project.data.dto.VerificationTokenDto;
 
 import java.util.List;
 import java.util.Map;

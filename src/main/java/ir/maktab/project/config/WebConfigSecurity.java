@@ -23,14 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
     private final UserRepository userRepository;
-
     private final ManagerRepository managerRepository;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
@@ -39,6 +32,11 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.userRepository = userRepository;
         this.managerRepository = managerRepository;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
