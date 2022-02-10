@@ -59,8 +59,8 @@
                 <table class="table table-bordered table-striped text-dark text-center">
                     <thead>
                     <tr>
-                        <th colspan="6">
-                            suggestion informations
+                        <th colspan="7">
+                            suggestion information
                         </th>
                         <th>
                             action
@@ -72,6 +72,9 @@
                         </th>
                         <th>
                             expert score
+                        </th>
+                        <th>
+                            expert name
                         </th>
                         <th>
                             suggested price
@@ -98,6 +101,9 @@
                             </td>
                             <td>
                                     ${suggestion.expert.score}
+                            </td>
+                            <td>
+                                    ${suggestion.expert.firstName} ${suggestion.expert.lastName}
                             </td>
                             <td>
                                     ${suggestion.suggestedPrice}
