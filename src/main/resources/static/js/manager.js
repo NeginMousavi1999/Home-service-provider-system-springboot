@@ -2,7 +2,6 @@ $(document).ready(function () {
 
     $("#search-form").submit(function (event) {
 
-        //stop submit the form, we will post it manually.
         event.preventDefault();
 
         $("#response-body").text("");
@@ -165,49 +164,6 @@ function getExpertServices() {
             $('#response-services').html(response);
             $("#userRole").text("expert");
             $("#response").show();
-
-        },
-        error: function (e) {
-            console.log("ERROR : ", e);
-            $("#btn-search").prop("disabled", false);
-            console.log(this.data);
-        }
-    });
-}
-
-function showUsersRequest() {//TODO: not complete!!
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: "/admin/get_reports",
-        dataType: 'json',
-        cache: false,
-        timeout: 600000,
-        success: function (data) {
-            console.log(data);
-
-            /*$("#response-services").text("");
-            let response;
-            for (let i = 0; i < data.length; i++) {
-                let order = data[i];
-                let row = "<tr>\n" +
-                    "                        <td>\n" + order.subService.service.name +
-                    "                        </td>\n" +
-                    "                        <td>\n" + order.subService.name +
-                    "                        </td>\n" +
-                    "                        <td>\n" + order.subService.cost +
-                    "                        </td>\n" +
-                    "                        <td>\n" + order.subService.description +
-                    "                        </td>\n" +
-                    "                        <td>\n" + order.registrationDate +
-                    "                        </td>\n" +
-                    "                        <td>\n" + order.expert.email +
-                    "                    </tr>";
-                response = response + row;
-            }
-
-            $('#response-requests').html(response);
-            $("#response").show();*/
 
         },
         error: function (e) {
