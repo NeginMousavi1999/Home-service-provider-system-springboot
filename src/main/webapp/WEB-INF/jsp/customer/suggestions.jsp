@@ -44,12 +44,13 @@
             <div class="col-12">
                 <div class="d-flex justify-content-center mb-5">
                     <a class="border p-3 mr-3"
-                       href="/customer/show_order_suggestions_sortedByExpertAndPrice/${identity}">sort by expert score
+                       href="/customer/show_order_suggestions/priceAndExpertScore/${identity}">sort
+                        by expert score
                         and suggested price</a>
                     <a class="border p-3 mr-3"
-                       href="/customer/show_order_suggestions_sortedByExpert/${identity}">sort by expert
+                       href="/customer/show_order_suggestions/expertScore/${identity}">sort by expert
                         score</a>
-                    <a class="border p-3" href="/customer/show_order_suggestions_sortedByPrice/${identity}">sort
+                    <a class="border p-3" href="/customer/show_order_suggestions/price/${identity}">sort
                         by suggested price</a>
                 </div>
             </div>

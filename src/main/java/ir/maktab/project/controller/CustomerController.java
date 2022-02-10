@@ -198,36 +198,21 @@ public class CustomerController {
         return "customer/orders";
     }
 
-    @GetMapping("/show_order_suggestions_sortedByExpertAndPrice/{identity}")
-    public String showOrderSuggestions(@PathVariable("identity") int identity, HttpServletRequest request, Model model) {
+    @GetMapping("/show_order_suggestions/{sortedBy}/{identity}")
+    public String showSuggestionsDependsOn(@PathVariable("identity") int identity,
+                                           @PathVariable("sortedBy") String sortedBy,
+                                           HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         Set<OrderDto> orders = (Set<OrderDto>) session.getAttribute("customer_orders");
         OrderDto orderDto = orders.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
-        List<SuggestionDto> suggestions = suggestionService.getSortedBySuggestedPriceAndExpertByOrder(orderDto);
-        model.addAttribute("suggestions", suggestions);
-        session.setAttribute("customer_suggestions", suggestions);
-        return "customer/suggestions";
-    }
-
-    @GetMapping("/show_order_suggestions_sortedByExpert/{identity}")
-    public String showOrderSuggestionsWithExpertScore(@PathVariable("identity") int identity, HttpServletRequest request,
-                                                      Model model) {
-        HttpSession session = request.getSession();
-        Set<OrderDto> orders = (Set<OrderDto>) session.getAttribute("customer_orders");
-        OrderDto orderDto = orders.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
-        List<SuggestionDto> suggestions = suggestionService.getSortedByExpertByOrder(orderDto);
-        model.addAttribute("suggestions", suggestions);
-        session.setAttribute("customer_suggestions", suggestions);
-        return "customer/suggestions";
-    }
-
-    @GetMapping("/show_order_suggestions_sortedByPrice/{identity}")
-    public String showOrderSuggestionsWithSuggestedPrice(@PathVariable("identity") int identity, HttpServletRequest request,
-                                                         Model model) {
-        HttpSession session = request.getSession();
-        Set<OrderDto> orders = (Set<OrderDto>) session.getAttribute("customer_orders");
-        OrderDto orderDto = orders.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
-        List<SuggestionDto> suggestions = suggestionService.getSortedBySuggestedPriceByOrder(orderDto);
+        List<SuggestionDto> suggestions;
+        if (sortedBy.equals("price")) {
+            suggestions = suggestionService.getSortedBySuggestedPriceByOrder(orderDto);
+        } else if (sortedBy.equals("expertScore")) {
+            suggestions = suggestionService.getSortedByExpertByOrder(orderDto);
+        } else {
+            suggestions = suggestionService.getSortedBySuggestedPriceAndExpertByOrder(orderDto);
+        }
         model.addAttribute("suggestions", suggestions);
         session.setAttribute("customer_suggestions", suggestions);
         return "customer/suggestions";
@@ -241,6 +226,6 @@ public class CustomerController {
         model.addAttribute("succ_massage", "successfully added");
         SuggestionDto suggestionDto = suggestions.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
         assert suggestionDto != null;
-        return showOrderSuggestions(suggestionDto.getOrder().getIdentity(), request, model);
+        return showSuggestionsDependsOn(suggestionDto.getOrder().getIdentity(), "priceAndExpertScore", request, model);
     }
 }
