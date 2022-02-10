@@ -42,7 +42,7 @@ public interface OrderService {
 
     List<OrderDto> getOrdersDoneByExpert();
 
-    List<OrderDto> filteredOrders(OrdersHistoryDto conditions);
+    List<OrderDto> filteredOrders(CustomerDto customerDto, FilteredOrderDto conditions);
 
     int findNumberOfRegisteredRequestsByCustomer(CustomerDto customer);
 

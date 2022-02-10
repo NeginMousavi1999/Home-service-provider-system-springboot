@@ -180,7 +180,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> filteredOrders(OrdersHistoryDto conditions) {
+    public List<OrderDto> filteredOrders(CustomerDto customerDto, FilteredOrderDto conditions) {
+        conditions.setCustomerUsername(customerDto.getEmail());
         return orderRepository.findAll(OrderRepository.selectByConditions(conditions))
                 .stream().map(OrderMapper::mapOrderToOrderDtoToPay).collect(Collectors.toList());
     }

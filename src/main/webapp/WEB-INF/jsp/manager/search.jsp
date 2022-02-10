@@ -102,7 +102,7 @@
                             <th colspan="5" style="text-align: center">
                                 result
                             </th>
-                            <th colspan="3">
+                            <th colspan="4">
                                 actions
                             </th>
                         </tr>
@@ -130,6 +130,9 @@
                             </th>
                             <th>
                                 services history
+                            </th>
+                            <th>
+                                filtering orders
                             </th>
                         </tr>
                         </thead>
@@ -166,6 +169,12 @@
                                 <td>
                                     <c:if test="${user.userStatus.toString() eq 'CONFIRMED'}">
                                         <a href="/portal/admin/dashboard/show_customer_services/${user.userRole.toString()}/${user.identity}">click
+                                            me</a>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${user.userStatus.toString() eq 'CONFIRMED' and user.userRole.toString() eq 'CUSTOMER'}">
+                                        <a href="/portal/admin/dashboard/show_orders/${user.identity}">click
                                             me</a>
                                     </c:if>
                                 </td>

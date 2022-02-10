@@ -1,6 +1,6 @@
 package ir.maktab.project.data.repository;
 
-import ir.maktab.project.data.dto.OrdersHistoryDto;
+import ir.maktab.project.data.dto.FilteredOrderDto;
 import ir.maktab.project.data.entity.members.Customer;
 import ir.maktab.project.data.entity.members.Expert;
 import ir.maktab.project.data.entity.order.Address;
@@ -31,9 +31,15 @@ import java.util.Set;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Integer>, JpaSpecificationExecutor<Order> {
 
-    static Specification<Order> selectByConditions(OrdersHistoryDto conditions) {
+    static Specification<Order> selectByConditions(FilteredOrderDto conditions) {
         return (Specification<Order>) (root, cq, cb) -> {
             List<Predicate> predicateList = new ArrayList<>();
+
+            if (conditions.getCustomerUsername() != null && conditions.getCustomerUsername().length() != 0) {
+                Join<Order, Customer> customer = root.join("customer");
+                predicateList.add(cb.equal(customer.get("email"), conditions.getCustomerUsername()));
+            }
+
             if (conditions.getFromDate() != null && conditions.getFromDate().length() != 0)
                 predicateList.add(cb.greaterThanOrEqualTo(root.get("registrationDate"),
                         GenerateDate.generateByPattern("yyyy-MM-dd", conditions.getFromDate())));

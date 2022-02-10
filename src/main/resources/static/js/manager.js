@@ -63,8 +63,6 @@ function show_orders() {
                     + order.address.state + ", "
                     + order.address.postalCode +
                     "                        </td>\n" +
-                    "                        <td>\n" + order.customer.email +
-                    "                        </td>\n" +
                     "                        <td>\n" + expertEmail +
                     "                        </td>\n" +
                     "                        <td>\n" + order.description +

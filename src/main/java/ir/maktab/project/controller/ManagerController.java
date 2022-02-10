@@ -1,10 +1,7 @@
 package ir.maktab.project.controller;
 
 import ir.maktab.project.data.dto.*;
-import ir.maktab.project.service.ManagerService;
-import ir.maktab.project.service.ServiceService;
-import ir.maktab.project.service.SubServiceService;
-import ir.maktab.project.service.UserService;
+import ir.maktab.project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +24,7 @@ import java.util.Set;
 public class ManagerController {
     private final ManagerService managerService;
     private final UserService userService;
+    private final CustomerService customerService;
     private final ServiceService serviceService;
     private final SubServiceService subServiceService;
 
@@ -132,8 +130,14 @@ public class ManagerController {
         return showAddNewSubService(model);
     }
 
-    @GetMapping("/dashboard/show_orders")
-    public String showOrders() {
+    @GetMapping("/dashboard/show_orders/{identity}")
+    public String showOrders(@PathVariable("identity") int identity, Model model, HttpServletRequest request) {
+        CustomerDto customerDto = customerService.findByIdentity(identity);
+        String fullName = customerDto.getFirstName() + " " + customerDto.getLastName();
+        HttpSession session = request.getSession();
+        session.setAttribute("customer_showing_orders", customerDto);
+        model.addAttribute("customer_identity_showing_orders", identity)
+                .addAttribute("name", fullName);
         return "manager/show_orders";
     }
 

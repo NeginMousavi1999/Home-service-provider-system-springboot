@@ -41,7 +41,7 @@
             <table class="table table-bordered table-striped text-dark text-center">
                 <thead>
                 <tr>
-                    <th colspan="6" style="text-align: center; border: none">
+                    <th colspan="5" style="text-align: center; border: none">
                         Filter Orders
                     </th>
                 </tr>
@@ -60,9 +60,6 @@
                     </th>
                     <th>
                         <label>sub service name</label>
-                    </th>
-                    <th>
-                        <label>action</label>
                     </th>
                 </tr>
                 </thead>
@@ -98,20 +95,10 @@
                             <input type="text" name="subServiceName" id="subServiceName"/>
                         </label>
                     </td>
-
-                    <td>
-                        <input id="submit_input" type="submit" value="Submit" class="btn btn-block btn-primary"/>
-                        <%-- <div class="form-group">
-                             <div class="col-sm-offset-2 col-sm-10">
-                                 <button type="submit" id="bth-search"
-                                         class="btn btn-primary btn-lg">Search
-                                 </button>
-                             </div>
-                         </div>--%>
-                    </td>
                 </tr>
                 </tbody>
             </table>
+            <input id="submit_input" type="submit" value="Filter ${name}'s Order" class="btn btn-block btn-primary"/>
         </form>
     </div>
 </nav>
@@ -124,7 +111,7 @@
                 <table class="table table-bordered table-striped text-dark text-center" style="margin-left: -4%">
                     <thead>
                     <tr>
-                        <th colspan="8">
+                        <th colspan="7">
                             result
                         </th>
                     </tr>
@@ -140,9 +127,6 @@
                         </th>
                         <th>
                             address
-                        </th>
-                        <th>
-                            customer username
                         </th>
                         <th>
                             expert username

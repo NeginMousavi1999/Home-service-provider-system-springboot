@@ -7,6 +7,8 @@ import ir.maktab.project.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +39,10 @@ public class ManagerRestController {
 
     @PostMapping(value = "get_by_conditions")
     @ResponseBody
-    public List<OrderDto> getAllOrdersByConditions(@RequestBody OrdersHistoryDto conditions) {
-        return orderService.filteredOrders(conditions);
+    public List<OrderDto> getAllOrdersByConditions(@RequestBody FilteredOrderDto conditions, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        CustomerDto customerDto = (CustomerDto) session.getAttribute("customer_showing_orders");
+        return orderService.filteredOrders(customerDto, conditions);
     }
 
     @GetMapping("get_reports")

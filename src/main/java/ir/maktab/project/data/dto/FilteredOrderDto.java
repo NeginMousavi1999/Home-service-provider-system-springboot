@@ -6,12 +6,10 @@ import lombok.Data;
  * @author Negin Mousavi
  */
 @Data
-public class OrdersHistoryDto {
+public class FilteredOrderDto {
 
-    //    @Pattern(regexp = "yyyy-MM-dd", message = "date format is like: yyyy-MM-dd")
     private String fromDate;
 
-    //    @Pattern(regexp = "yyyy-MM-dd", message = "date format is like: yyyy-MM-dd")
     private String toDate;
 
     private String status;
@@ -20,4 +18,5 @@ public class OrdersHistoryDto {
 
     private String subService;
 
+    private String customerUsername;
 }
