@@ -46,7 +46,7 @@
                     <thead>
                     <tr>
                         <th colspan="5">
-                            orders informations
+                            orders information
                         </th>
                         <th colspan="2">
                             actions

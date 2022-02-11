@@ -8,6 +8,8 @@
     <title>Customer</title>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/dashboard_style.css"/>">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow-style">
@@ -41,19 +43,6 @@
 <div class="contents order-2 order-md-1">
     <div class="container">
         <div class="row align-items-center justify-content-center">
-            <div class="col-12">
-                <div class="d-flex justify-content-center mb-5">
-                    <a class="border p-3 mr-3"
-                       href="/customer/show_order_suggestions/priceAndExpertScore/${identity}">sort
-                        by expert score
-                        and suggested price</a>
-                    <a class="border p-3 mr-3"
-                       href="/customer/show_order_suggestions/expertScore/${identity}">sort by expert
-                        score</a>
-                    <a class="border p-3" href="/customer/show_order_suggestions/price/${identity}">sort
-                        by suggested price</a>
-                </div>
-            </div>
             <div class=" col-12">
                 <div style="color: green">${succ_massage}</div>
                 <div style="color: red">${error_massage}</div>
@@ -72,13 +61,15 @@
                             status
                         </th>
                         <th>
-                            expert score
+                            <a href="/customer/show_order_suggestions/expertScore/${identity}"><i
+                                    class='fas fa-angle-down fa-lg'></i></a> expert score
                         </th>
                         <th>
                             expert name
                         </th>
                         <th>
-                            suggested price
+                            <a href="/customer/show_order_suggestions/price/${identity}"><i
+                                    class='fas fa-angle-down fa-lg'></i></a> suggested price
                         </th>
                         <th>
                             duration of work

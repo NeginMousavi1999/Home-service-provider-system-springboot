@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer</title>
+    <title>Expert</title>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/dashboard_style.css"/>">
 </head>
@@ -47,14 +47,14 @@
                     <thead>
                     <tr>
                         <th colspan="8">
-                            suggestions informations
+                            suggestions information
                         </th>
-                        <th colspan="3">
+                        <th colspan="4">
                             actions
                         </th>
                     </tr>
                     <tr>
-                        <th colspan="4">
+                        <th colspan="5">
                             order
                         </th>
                         <th rowspan="2">
@@ -90,6 +90,9 @@
                             registration date
                         </th>
                         <th>
+                            status
+                        </th>
+                        <th>
                             address
                         </th>
 
@@ -106,6 +109,9 @@
                             </td>
                             <td>
                                     ${suggestion.order.registrationDate}
+                            </td>
+                            <td>
+                                    ${suggestion.order.orderStatus}
                             </td>
                             <td>
                                     ${suggestion.order.address.formattedAddress}
