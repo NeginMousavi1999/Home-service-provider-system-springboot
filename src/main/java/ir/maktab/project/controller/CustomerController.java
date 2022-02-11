@@ -228,4 +228,16 @@ public class CustomerController {
         assert suggestionDto != null;
         return showSuggestionsDependsOn(suggestionDto.getOrder().getIdentity(), "priceAndExpertScore", request, model);
     }
+
+    @GetMapping("/test")
+    public String showOrderTest() {
+        return "test";
+    }
+
+    @GetMapping("/add_order_new")
+    public String returnAddNewOrder(Model model) {
+        Set<ServiceDto> services = serviceService.getAllServiceIncludingSubService();
+        model.addAttribute("set", services);
+        return "customer/add_order_new";
+    }
 }
