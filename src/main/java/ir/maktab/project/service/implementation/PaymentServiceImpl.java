@@ -4,6 +4,7 @@ import ir.maktab.project.data.dto.CustomerDto;
 import ir.maktab.project.data.dto.ExpertDto;
 import ir.maktab.project.data.dto.OrderDto;
 import ir.maktab.project.data.dto.PaymentDto;
+import ir.maktab.project.data.dto.mapper.PaymentMapper;
 import ir.maktab.project.data.enumuration.OrderStatus;
 import ir.maktab.project.data.enumuration.PaymentMethod;
 import ir.maktab.project.data.repository.PaymentRepository;
@@ -11,7 +12,6 @@ import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.PaymentService;
-import ir.maktab.project.data.dto.mapper.PaymentMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,5 +45,10 @@ public class PaymentServiceImpl implements PaymentService {
         orderService.updateStatus(doneOrder);
         paymentRepository.save(PaymentMapper.mapPaymentDtoToPaymentForSaving(paymentDto));
         return customerDto;
+    }
+
+    @Override
+    public void increaseCredit(PaymentDto paymentDto) {
+        paymentRepository.save(PaymentMapper.mapPaymentDtoToPaymentForSaving(paymentDto));
     }
 }

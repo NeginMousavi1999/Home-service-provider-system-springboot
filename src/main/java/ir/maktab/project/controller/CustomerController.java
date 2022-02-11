@@ -55,32 +55,6 @@ public class CustomerController {
         }
     }
 
-/*    @GetMapping("/add_order")
-    public ModelAndView showAddNewOrder(ModelAndView modelAndView) {
-        Set<ServiceDto> services = serviceService.getAllServiceIncludingSubService();
-        modelAndView.setViewName("customer/add_order");
-        modelAndView.getModelMap().addAttribute("set", services);
-        modelAndView.getModelMap().addAttribute("order", new OrderRequestDto());
-        return modelAndView;
-    }*/
-
-/*    @PostMapping(value = "/add_new_order")
-    public ModelAndView addNewOrder(@Validated @ModelAttribute("order") OrderRequestDto orderRequest, ModelAndView modelAndView,
-                                    HttpServletRequest request) {
-        try {
-            CustomerDto customerDto = (CustomerDto) request.getSession().getAttribute("customerDto");
-            OrderDto orderDto = orderService.addNewOrder(orderRequest, customerDto);
-            modelAndView.getModelMap().addAttribute("order", orderDto);
-            modelAndView.getModelMap().addAttribute("succ_massage", "successfully added");
-            modelAndView.setViewName("customer/add_order");
-            return showAddNewOrder(modelAndView);
-        } catch (Exception e) {
-            modelAndView.getModelMap().addAttribute("error_massage", e.getLocalizedMessage());
-            modelAndView.setViewName("customer/add_order");
-            return showAddNewOrder(modelAndView);
-        }
-    }*/
-
     @GetMapping("/paying_from_credit/{identity}")
     public String payFromCredit(@PathVariable("identity") int identity, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -105,6 +79,7 @@ public class CustomerController {
         OrderDto paymentOrder = getPaymentOrderDto(identity, session);
         PaymentDto paymentDto = PaymentDto.builder()
                 .order(paymentOrder)
+                .cost(String.valueOf(paymentOrder.getFinalPrice()))
                 .paymentMethod(PaymentMethod.ONLINE)
                 .build();
         model.addAttribute("paymentDto", paymentDto);
@@ -117,20 +92,45 @@ public class CustomerController {
         return doneOrders.stream().filter(order -> order.getIdentity() == identity).findFirst().orElse(null);
     }
 
-    @PostMapping("/pay_online")
+    @PostMapping("/BankPaymentGateway")
     public String doOnlinePay(@Validated @ModelAttribute("paymentDto") PaymentDto donePaymentDto, Model model,
                               HttpServletRequest request) {
         HttpSession session = request.getSession();
         try {
             PaymentDto paymentDto = (PaymentDto) session.getAttribute("paymentDto");
+            if (paymentDto.getPaymentMethod().equals(PaymentMethod.CHARGE_ACCOUNT)) {
+                CustomerDto customerDto = (CustomerDto) session.getAttribute("customerDto");
+                paymentDto.setCustomerDto(customerDto);
+                paymentDto.setCardNumber(donePaymentDto.getCardNumber());
+                double amount = Double.parseDouble(paymentDto.getCost());
+                customerService.increaseCredit(customerDto, amount);
+                paymentService.increaseCredit(paymentDto);
+                session.setAttribute("customerDto", customerDto);
+                model.addAttribute("succ_massage", "successfully increased");
+                return showDashboard();
+            }
             paymentDto.setCardNumber(donePaymentDto.getCardNumber());
             CustomerDto customerDto = paymentService.pay(paymentDto);
             session.setAttribute("customerDto", customerDto);
             model.addAttribute("succ_massage", "successfully paid");
+
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());
         }
         return showAllOrders(request, model);
+    }
+
+    @PostMapping("/increase_credit")
+    public String increaseCredit(@RequestParam(value = "amount") String stringAmount, HttpServletRequest request,
+                                 Model model) {
+        PaymentDto paymentDto = PaymentDto.builder()
+                .cost(stringAmount)
+                .paymentMethod(PaymentMethod.CHARGE_ACCOUNT)
+                .build();
+        HttpSession session = request.getSession();
+        model.addAttribute("paymentDto", paymentDto);
+        session.setAttribute("paymentDto", paymentDto);
+        return "customer/pay_online";
     }
 
     @GetMapping("/show_feedback_page/{identity}")
@@ -165,21 +165,6 @@ public class CustomerController {
 
     @GetMapping("/bank")
     public String showIncreasePage() {
-        return "customer/increase_credit";
-    }
-
-    @PostMapping("/increase_credit")
-    public String increaseCredit(@RequestParam(value = "amount") String stringAmount, HttpServletRequest request,
-                                 Model model) {
-        HttpSession session = request.getSession();
-        try {
-            CustomerDto customerDto = (CustomerDto) session.getAttribute("customerDto");
-            double amount = Double.parseDouble(stringAmount);
-            customerService.increaseCredit(customerDto, amount);
-            model.addAttribute("succ_massage", "successfully increased");
-        } catch (Exception exception) {
-            model.addAttribute("error_massage", exception.getLocalizedMessage());
-        }
         return "customer/increase_credit";
     }
 

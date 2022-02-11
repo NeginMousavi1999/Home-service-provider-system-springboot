@@ -1,5 +1,6 @@
 package ir.maktab.project.data.entity.order;
 
+import ir.maktab.project.data.entity.members.Customer;
 import ir.maktab.project.data.enumuration.PaymentMethod;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,8 +28,11 @@ public class Payment {
     @OneToOne
     private Order order;
 
+    @ManyToOne
+    private Customer customer;
+
     @CreationTimestamp
-    private Date paymantDate;
+    private Date paymentDate;
 
     private String cardNumber;
 }

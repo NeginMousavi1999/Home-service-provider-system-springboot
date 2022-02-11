@@ -1,5 +1,7 @@
 package ir.maktab.project.data.dto.mapper;
 
+import ir.maktab.project.data.dto.CustomerDto;
+import ir.maktab.project.data.dto.OrderDto;
 import ir.maktab.project.data.dto.PaymentDto;
 import ir.maktab.project.data.entity.order.Payment;
 
@@ -7,27 +9,17 @@ import ir.maktab.project.data.entity.order.Payment;
  * @author Negin Mousavi
  */
 public class PaymentMapper {
-    private static final int suffix = 1000;
-
-    public static Payment mapPaymentDtoToPayment(PaymentDto paymentDto) {
-        return Payment.builder()
-                .id(paymentDto.getIdentity() - suffix)
-
-                .build();
-    }
-
     public static Payment mapPaymentDtoToPaymentForSaving(PaymentDto paymentDto) {
-        return Payment.builder()
+        OrderDto orderDto = paymentDto.getOrder();
+        CustomerDto customerDto = paymentDto.getCustomerDto();
+        Payment payment = Payment.builder()
                 .cardNumber(paymentDto.getCardNumber())
-                .order(OrderMapper.mapOrderDtoToOrderWithoutSuggestion(paymentDto.getOrder()))
                 .paymentMethod(paymentDto.getPaymentMethod())
                 .build();
-    }
-
-    public static PaymentDto mapPaymentToPaymentDto(Payment payment) {
-        return PaymentDto.builder()
-                .identity(payment.getId() + suffix)
-
-                .build();
+        if (orderDto != null)
+            payment.setOrder(OrderMapper.mapOrderDtoToOrderWithoutSuggestion(orderDto));
+        if (customerDto != null)
+            payment.setCustomer(CustomerMapper.mapCustomerDtoToCustomer(customerDto));
+        return payment;
     }
 }

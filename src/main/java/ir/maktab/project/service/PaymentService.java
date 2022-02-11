@@ -8,4 +8,6 @@ import ir.maktab.project.data.dto.PaymentDto;
  */
 public interface PaymentService {
     CustomerDto pay(PaymentDto paymentDto);
+
+    void increaseCredit(PaymentDto paymentDto);
 }

@@ -23,8 +23,12 @@ public class PaymentDto {
 
     private OrderDto order;
 
-    private Date paymantDate;
+    private CustomerDto customerDto;
+
+    private Date paymentDate;
 
     @Size(max = 12, min = 8, message = "invalid card number!")
     private String cardNumber;
+
+    private String cost;
 }

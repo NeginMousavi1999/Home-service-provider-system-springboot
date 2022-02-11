@@ -64,7 +64,7 @@
             <div class="col-md-12">
                 <div style="color: green">${succ_massage}</div>
                 <div style="color: red">${error_massage}</div>
-                <form:form action="${pageContext.request.contextPath}/customer/pay_online" method="post"
+                <form:form action="${pageContext.request.contextPath}/customer/BankPaymentGateway" method="post"
                            modelAttribute="paymentDto">
                     <table class="table table-bordered table-striped text-dark text-center">
                         <thead>
@@ -93,7 +93,7 @@
                         </thead>
                         <tr>
                             <td>
-                                    ${paymentDto.order.finalPrice}
+                                    ${paymentDto.cost}
                             </td>
                             <td>
                                 <label>
