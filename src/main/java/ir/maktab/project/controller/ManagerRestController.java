@@ -1,5 +1,6 @@
 package ir.maktab.project.controller;
 
+import io.swagger.annotations.ApiOperation;
 import ir.maktab.project.data.dto.*;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.ExpertService;
@@ -63,6 +64,7 @@ public class ManagerRestController {
         return new ArrayList<>(orderService.getOrdersByCustomer(customerDto));
     }
 
+    @ApiOperation(value = "get services used by expert")
     @GetMapping("get_expert_services/{identity}")
     @ResponseBody
     public List<OrderDto> getServicesByExpert(@PathVariable("identity") int identity) {
