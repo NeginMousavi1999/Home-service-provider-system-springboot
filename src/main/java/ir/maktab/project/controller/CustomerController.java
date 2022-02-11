@@ -56,16 +56,16 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("/add_order")
+/*    @GetMapping("/add_order")
     public ModelAndView showAddNewOrder(ModelAndView modelAndView) {
         Set<ServiceDto> services = serviceService.getAllServiceIncludingSubService();
         modelAndView.setViewName("customer/add_order");
         modelAndView.getModelMap().addAttribute("set", services);
         modelAndView.getModelMap().addAttribute("order", new OrderRequestDto());
         return modelAndView;
-    }
+    }*/
 
-    @PostMapping(value = "/add_new_order")
+/*    @PostMapping(value = "/add_new_order")
     public ModelAndView addNewOrder(@Validated @ModelAttribute("order") OrderRequestDto orderRequest, ModelAndView modelAndView,
                                     HttpServletRequest request) {
         try {
@@ -80,7 +80,7 @@ public class CustomerController {
             modelAndView.setViewName("customer/add_order");
             return showAddNewOrder(modelAndView);
         }
-    }
+    }*/
 
     @GetMapping("/paying_from_credit/{identity}")
     public String payFromCredit(@PathVariable("identity") int identity, Model model, HttpServletRequest request) {
@@ -234,7 +234,7 @@ public class CustomerController {
         return "test";
     }
 
-    @GetMapping("/add_order_new")
+    @GetMapping("/add_order")
     public String returnAddNewOrder(Model model) {
         Set<ServiceDto> services = serviceService.getAllServiceIncludingSubService();
         model.addAttribute("set", services);

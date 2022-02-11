@@ -36,7 +36,7 @@ public interface OrderService {
 
     void startOrder(OrderDto orderDto);
 
-    OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto);
+    /*OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto);*/
 
     OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto);
 

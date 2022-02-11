@@ -121,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
         updateStatus(orderDto);
     }
 
-    @Override
+/*    @Override
     public OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto) {
         validation.validateUserStatus(UserStatus.CONFIRMED, customerDto.getUserStatus());
         SubServiceDto subServiceDto = subServiceService.findSubServiceByName(orderRequest.getSubServiceName());
@@ -153,7 +153,7 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         saveOrder(orderDto);
         return orderDto;
-    }
+    }*/
 
     private boolean isDuplicateOrder(AddressDto addressDto, CustomerDto customerDto, SubServiceDto subServiceDto, String description) {
         Address address = AddressMapper.mapAddressDtoToAddress(addressDto);
