@@ -18,12 +18,12 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String country;
-
     private String city;
 
     private String state;
 
-    @Column(name = "postal_code")
-    private String postalCode;
+    private String neighbourhood;
+
+    @Column(name = "formatted_address")
+    private String formattedAddress;
 }

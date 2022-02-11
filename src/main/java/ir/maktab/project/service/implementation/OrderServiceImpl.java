@@ -136,10 +136,10 @@ public class OrderServiceImpl implements OrderService {
                 throw new HomeServiceException("Duplicate Order!!");
         } else {
             addressDto = AddressDto.builder()
-                    .country(country)
-                    .city(city)
-                    .state(state)
-                    .postalCode(postalCode)
+                    .city(country)
+                    .state(city)
+                    .neighbourhood(state)
+                    .formattedAddress(postalCode)
                     .build();
             addressService.save(addressDto);
             addressDto = addressService.findAddress(country, city, state, postalCode);
@@ -202,5 +202,41 @@ public class OrderServiceImpl implements OrderService {
         if (orders.isEmpty())
             throw new HomeServiceException("not found!");
         return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoWithoutSuggestion).collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto) {
+        validation.validateUserStatus(UserStatus.CONFIRMED, customerDto.getUserStatus());
+        SubServiceDto subServiceDto = subServiceService.findSubServiceByName(orderRequest.getSubServiceName());
+
+        String city = orderRequest.getCity();
+        String state = orderRequest.getState();
+        String neighbourhood = orderRequest.getNeighbourhood();
+        String formattedAddress = orderRequest.getFormattedAddress();
+        String description = orderRequest.getDescription();
+
+        AddressDto addressDto = addressService.findAddress(neighbourhood, city, state, formattedAddress);
+        if (addressDto != null) {
+            if (isDuplicateOrder(addressDto, customerDto, subServiceDto, description))
+                throw new HomeServiceException("Duplicate Order!!");
+        } else {
+            addressDto = AddressDto.builder()
+                    .city(neighbourhood)
+                    .state(city)
+                    .neighbourhood(state)
+                    .formattedAddress(formattedAddress)
+                    .build();
+            addressService.save(addressDto);
+            addressDto = addressService.findAddress(neighbourhood, city, state, formattedAddress);
+        }
+        OrderDto orderDto = OrderDto.builder()
+                .address(addressDto)
+                .customer(customerDto)
+                .description(description)
+                .orderStatus(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION)
+                .subService(subServiceDto)
+                .build();
+        saveOrder(orderDto);
+        return orderDto;
     }
 }

@@ -12,5 +12,6 @@ import java.util.Optional;
  */
 @Repository
 public interface AddressRepository extends CrudRepository<Address, Integer> {
-    Optional<Address> findByCountryAndCityAndStateAndPostalCode(String country, String city, String state, String postalCode);
+    Optional<Address> findByCityAndStateAndNeighbourhoodAndFormattedAddress
+            (String city, String state, String neighbourhood, String formattedAddress);
 }

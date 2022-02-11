@@ -8,5 +8,5 @@ import ir.maktab.project.data.dto.AddressDto;
 public interface AddressService {
     void save(AddressDto addressDto);
 
-    AddressDto findAddress(String country, String city, String state, String postalCode);
+    AddressDto findAddress(String city, String state, String neighbourhood, String formattedAddress);
 }

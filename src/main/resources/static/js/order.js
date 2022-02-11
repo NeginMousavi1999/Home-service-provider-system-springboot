@@ -84,7 +84,7 @@ function addOrder() {
                     "neighbourhood": neighbourhood,
                     "city": city,
                     "state": state,
-                    "formatted_address": formatted_address,
+                    "formattedAddress": formatted_address,
                     "description": description,
                     "subServiceName": subServiceName
                 }),

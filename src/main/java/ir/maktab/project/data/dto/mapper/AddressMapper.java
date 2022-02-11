@@ -12,29 +12,29 @@ public class AddressMapper {
     public static Address mapAddressDtoToAddress(AddressDto addressDto) {
         return Address.builder()
                 .id(addressDto.getIdentity() - suffix)
-                .country(addressDto.getCountry())
                 .city(addressDto.getCity())
                 .state(addressDto.getState())
-                .postalCode(addressDto.getPostalCode())
+                .neighbourhood(addressDto.getNeighbourhood())
+                .formattedAddress(addressDto.getFormattedAddress())
                 .build();
     }
 
     public static Address mapAddressDtoToAddressForSaving(AddressDto addressDto) {
         return Address.builder()
-                .country(addressDto.getCountry())
                 .city(addressDto.getCity())
                 .state(addressDto.getState())
-                .postalCode(addressDto.getPostalCode())
+                .neighbourhood(addressDto.getNeighbourhood())
+                .formattedAddress(addressDto.getFormattedAddress())
                 .build();
     }
 
     public static AddressDto mapAddressToAddressDto(Address address) {
         return AddressDto.builder()
                 .identity(address.getId() + suffix)
-                .country(address.getCountry())
                 .city(address.getCity())
                 .state(address.getState())
-                .postalCode(address.getPostalCode())
+                .neighbourhood(address.getNeighbourhood())
+                .formattedAddress(address.getFormattedAddress())
                 .build();
     }
 }

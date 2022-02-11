@@ -38,6 +38,8 @@ public interface OrderService {
 
     OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto);
 
+    OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto);
+
     List<OrderDto> getOrdersGivenByCustomer();
 
     List<OrderDto> getOrdersDoneByExpert();

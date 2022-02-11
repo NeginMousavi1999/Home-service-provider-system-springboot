@@ -1,10 +1,10 @@
 package ir.maktab.project.service.implementation;
 
 import ir.maktab.project.data.dto.AddressDto;
+import ir.maktab.project.data.dto.mapper.AddressMapper;
 import ir.maktab.project.data.entity.order.Address;
 import ir.maktab.project.data.repository.AddressRepository;
 import ir.maktab.project.service.AddressService;
-import ir.maktab.project.data.dto.mapper.AddressMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto findAddress(String country, String city, String state, String postalCode) {
-        Optional<Address> optionalAddress = addressRepository.findByCountryAndCityAndStateAndPostalCode(country, city, state, postalCode);
+    public AddressDto findAddress(String city, String state, String neighbourhood, String formattedAddress) {
+        Optional<Address> optionalAddress = addressRepository
+                .findByCityAndStateAndNeighbourhoodAndFormattedAddress(city, state, neighbourhood, formattedAddress);
         if (optionalAddress.isEmpty())
             return null;
         return AddressMapper.mapAddressToAddressDto(optionalAddress.get());

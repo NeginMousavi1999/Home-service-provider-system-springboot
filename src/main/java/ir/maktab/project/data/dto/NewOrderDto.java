@@ -12,5 +12,5 @@ public class NewOrderDto {
     private String city;
     private String state;
     private String neighbourhood;
-    private String formatted_address;
+    private String formattedAddress;
 }
