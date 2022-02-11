@@ -108,7 +108,7 @@
                                     ${suggestion.order.registrationDate}
                             </td>
                             <td>
-                                    ${suggestion.order.address.country}, ${suggestion.order.address.city}, ${suggestion.order.address.state}
+                                    ${suggestion.order.address.formattedAddress}
                             </td>
                             <td>
                                     ${suggestion.suggestedPrice}

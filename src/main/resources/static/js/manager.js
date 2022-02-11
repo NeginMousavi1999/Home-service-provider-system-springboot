@@ -58,10 +58,7 @@ function show_orders() {
                     "                        </td>\n" +
                     "                        <td>\n" + toBeDoneDate +
                     "                        </td>\n" +
-                    "                        <td>\n" + order.address.country + ", "
-                    + order.address.city + ", "
-                    + order.address.state + ", "
-                    + order.address.postalCode +
+                    "                        <td>\n" + order.address.formattedAddress +
                     "                        </td>\n" +
                     "                        <td>\n" + expertEmail +
                     "                        </td>\n" +

@@ -121,40 +121,6 @@ public class OrderServiceImpl implements OrderService {
         updateStatus(orderDto);
     }
 
-/*    @Override
-    public OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto) {
-        validation.validateUserStatus(UserStatus.CONFIRMED, customerDto.getUserStatus());
-        SubServiceDto subServiceDto = subServiceService.findSubServiceByName(orderRequest.getSubServiceName());
-        String country = orderRequest.getCountry();
-        String city = orderRequest.getCity();
-        String state = orderRequest.getState();
-        String postalCode = orderRequest.getPostalCode();
-        String description = orderRequest.getDescription();
-        AddressDto addressDto = addressService.findAddress(country, city, state, postalCode);
-        if (addressDto != null) {
-            if (isDuplicateOrder(addressDto, customerDto, subServiceDto, description))
-                throw new HomeServiceException("Duplicate Order!!");
-        } else {
-            addressDto = AddressDto.builder()
-                    .city(country)
-                    .state(city)
-                    .neighbourhood(state)
-                    .formattedAddress(postalCode)
-                    .build();
-            addressService.save(addressDto);
-            addressDto = addressService.findAddress(country, city, state, postalCode);
-        }
-        OrderDto orderDto = OrderDto.builder()
-                .address(addressDto)
-                .customer(customerDto)
-                .description(description)
-                .orderStatus(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION)
-                .subService(subServiceDto)
-                .build();
-        saveOrder(orderDto);
-        return orderDto;
-    }*/
-
     private boolean isDuplicateOrder(AddressDto addressDto, CustomerDto customerDto, SubServiceDto subServiceDto, String description) {
         Address address = AddressMapper.mapAddressDtoToAddress(addressDto);
         Customer customer = CustomerMapper.mapCustomerDtoToCustomer(customerDto);

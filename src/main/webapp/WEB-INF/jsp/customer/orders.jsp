@@ -110,7 +110,7 @@
                                     ${order.toBeDoneDate}
                             </td>
                             <td>
-                                    ${order.address.country}, ${order.address.city}, ${order.address.state}
+                                    ${order.address.formattedAddress}
                             </td>
                             <td>
                                 <a href="/customer/show_order_suggestions/priceAndExpertScore/${order.identity}">click

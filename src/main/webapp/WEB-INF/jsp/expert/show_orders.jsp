@@ -92,7 +92,7 @@
                                     ${order.registrationDate}
                             </td>
                             <td>
-                                    ${order.address.country}, ${order.address.city}, ${order.address.state}
+                                    ${order.address.formattedAddress}
                             </td>
                             <td>
                                 <a href="/expert/show_order_suggestions/${order.identity}">click me</a>
