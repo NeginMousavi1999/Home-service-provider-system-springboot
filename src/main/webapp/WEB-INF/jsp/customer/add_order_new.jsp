@@ -84,10 +84,10 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                               <div class="d-flex justify-content-center">
-                                   <div id="map"
-                                        style="width: 600px; height: 450px; background: #eee; border: 2px solid #aaa;"></div>
-                               </div>
+                                <div class="d-flex justify-content-center">
+                                    <div id="map"
+                                         style="width: 600px; height: 450px; background: #eee; border: 2px solid #aaa;"></div>
+                                </div>
                             </td>
                         </tr>
                         <tr>

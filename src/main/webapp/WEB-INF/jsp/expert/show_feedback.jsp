@@ -1,8 +1,5 @@
-<%--@elvariable id="error_massage" type="antlr"--%>
-<%--@elvariable id="succ_massage" type="antlr"--%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 <head>

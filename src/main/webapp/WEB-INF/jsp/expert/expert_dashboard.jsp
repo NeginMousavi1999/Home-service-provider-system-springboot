@@ -99,6 +99,11 @@
                             credit : ${expertDto.credit}
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            score : ${expertDto.score}
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
