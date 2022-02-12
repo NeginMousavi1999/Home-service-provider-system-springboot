@@ -15,8 +15,6 @@ public interface ServiceService {
 
     List<String> getAllServiceName();
 
-    boolean validateNewName(String name);
-
     boolean addNewService(ServiceDto service);
 
     ServiceDto findServiceByName(String name);

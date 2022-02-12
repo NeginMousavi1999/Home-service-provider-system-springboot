@@ -7,9 +7,9 @@ import ir.maktab.project.data.dto.mapper.SubServiceMapper;
 import ir.maktab.project.data.entity.services.SubService;
 import ir.maktab.project.data.repository.SubServiceRepository;
 import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.ServiceService;
 import ir.maktab.project.service.SubServiceService;
-import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,17 +28,12 @@ import java.util.stream.Collectors;
 @Getter
 public class SubServiceServiceImpl implements SubServiceService {
     private final SubServiceRepository subServiceRepository;
-    private final Validation validation;
     private final ServiceService serviceService;
     private final ModelMapper modelMapper = new ModelMapper();
     private final Environment environment;
 
-    public List<String> getAllServiceName() {
+    public List<String> getAllSubServiceName() {
         return subServiceRepository.findAll().stream().map(SubService::getName).collect(Collectors.toList());
-    }
-
-    public boolean validateNewName(String name) {
-        return validation.validateNewName(name, getAllServiceName());
     }
 
     public boolean save(SubServiceDto subServiceDto) {
@@ -55,7 +50,8 @@ public class SubServiceServiceImpl implements SubServiceService {
 
     @Override
     public void addNewSubService(SubServiceRequestDto subServiceRequestDto) {
-        validateNewName(subServiceRequestDto.getName());
+        if (getAllSubServiceName().contains(subServiceRequestDto.getName()))
+            throw new ValidationException(environment.getProperty("Duplicate.SubService"));
         ServiceDto serviceDto = serviceService.findServiceByName(subServiceRequestDto.getServiceName());
         SubServiceDto subServiceDto = SubServiceDto.builder()
                 .service(serviceDto)

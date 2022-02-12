@@ -5,8 +5,8 @@ import ir.maktab.project.data.dto.mapper.ServiceMapper;
 import ir.maktab.project.data.entity.services.Service;
 import ir.maktab.project.data.repository.ServiceRepository;
 import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.ServiceService;
-import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Getter
 public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
-    private final Validation validation;
     private final Environment environment;
 
     public ServiceDto getServiceById(int id) {
@@ -38,12 +37,9 @@ public class ServiceServiceImpl implements ServiceService {
         return serviceRepository.findAll().stream().map(Service::getName).collect(Collectors.toList());
     }
 
-    public boolean validateNewName(String name) {
-        return validation.validateNewName(name, getAllServiceName());
-    }
-
     public boolean addNewService(ServiceDto serviceDto) {
-        validateNewName(serviceDto.getName());
+        if (getAllServiceName().contains(serviceDto.getName()))
+            throw new ValidationException(environment.getProperty("Duplicate.Service"));
         serviceRepository.save(ServiceMapper.mapServiceDtoToService(serviceDto));
         return true;
     }

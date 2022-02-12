@@ -5,14 +5,13 @@ import ir.maktab.project.data.dto.UserDto;
 import ir.maktab.project.data.dto.mapper.CustomerMapper;
 import ir.maktab.project.data.dto.mapper.UserMapper;
 import ir.maktab.project.data.entity.members.Customer;
-import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.CustomerRepository;
 import ir.maktab.project.exceptions.DuplicateException;
 import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.OrderService;
-import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,7 +32,6 @@ import java.util.stream.Collectors;
 @Getter
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
-    private final Validation validation;
     private final ModelMapper modelMapper = new ModelMapper();
     private final OrderService orderService;
     private final Environment environment;
@@ -72,16 +70,16 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void changePassword(CustomerDto customerDto, String oldPassword, String newPassword) {
-        validation.validateUserRole(UserRole.CUSTOMER, customerDto.getUserRole());
-        validation.validateCorrectPassword(oldPassword, customerDto.getPassword());
-        validation.validatePassword(newPassword);
+        if (!oldPassword.equals(customerDto.getPassword()))
+            throw new ValidationException(environment.getProperty("Incorrect.Password"));
         customerDto.setPassword(newPassword);
         update(customerDto);
     }
 
     @Override
     public CustomerDto payByCredit(CustomerDto customerDto, double price) {
-        validation.validateCustomerCredit(customerDto.getCredit(), price);
+        if (customerDto.getCredit() < price)
+            throw new ValidationException(environment.getProperty("Not.Enough.Credit"));
         customerDto.setCredit(customerDto.getCredit() - price);
         update(customerDto);
         return customerDto;

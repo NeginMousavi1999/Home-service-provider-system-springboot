@@ -16,7 +16,6 @@ import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.SuggestionService;
 import ir.maktab.project.util.GenerateDate;
-import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -36,7 +35,6 @@ public class ExpertServiceImpl implements ExpertService {
     private final ExpertRepository expertRepository;
     private final SuggestionService suggestionService;
     private final OrderService orderService;
-    private final Validation validation;
     private final ModelMapper modelMapper = new ModelMapper();
     private final Environment environment;
 
@@ -98,10 +96,11 @@ public class ExpertServiceImpl implements ExpertService {
     public void addNewSuggestion(String date, double suggestedPrice, int durationOfWork, OrderDto orderDto
             , ExpertDto expertDto) {
         if (suggestedPrice < orderDto.getSubService().getCost())
-            throw new ValidationException(environment.getProperty("Price.Not.Enough"));
+            throw new ValidationException(environment.getProperty("Not.Enough.Suggested.Price"));
         Set<SuggestionDto> suggestionDtoSet = suggestionService.getByOrder(orderDto);
         orderDto.setSuggestions(suggestionDtoSet);
-        validation.validateUserStatus(UserStatus.CONFIRMED, expertDto.getUserStatus());
+        if (!expertDto.getUserStatus().equals(UserStatus.CONFIRMED))
+            throw new ValidationException(environment.getProperty("Not.Confirmed"));
         orderDto.setSuggestions(suggestionDtoSet);
         SuggestionDto suggestionDto = SuggestionDto.builder()
                 .expert(expertDto)

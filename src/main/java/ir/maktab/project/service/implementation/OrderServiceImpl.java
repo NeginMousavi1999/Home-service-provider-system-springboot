@@ -11,11 +11,11 @@ import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.OrderRepository;
 import ir.maktab.project.exceptions.DuplicateException;
 import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.AddressService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.ServiceService;
 import ir.maktab.project.service.SubServiceService;
-import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
     private final AddressService addressService;
     private final SubServiceService subServiceService;
     private final ServiceService serviceService;
-    private final Validation validation;
     private final int suffix = 1000;
     private final Environment environment;
 
@@ -175,7 +174,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto) {
-        validation.validateUserStatus(UserStatus.CONFIRMED, customerDto.getUserStatus());
+        if (!customerDto.getUserStatus().equals(UserStatus.CONFIRMED))
+            throw new ValidationException(environment.getProperty("Not.Confirmed"));
         SubServiceDto subServiceDto = subServiceService.findSubServiceByName(orderRequest.getSubServiceName());
 
         String city = orderRequest.getCity();

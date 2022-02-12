@@ -11,9 +11,7 @@ import java.util.List;
 
 public interface SubServiceService {
 
-    List<String> getAllServiceName();
-
-    boolean validateNewName(String name);
+    List<String> getAllSubServiceName();
 
     boolean save(SubServiceDto subService);
 
