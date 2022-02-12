@@ -18,17 +18,11 @@ public interface UserService {
 
     UserDto createUserDto(User user);
 
-    UserDto findUserByUserNameAndPassword(LoginDto loginDto);
-
-    List<UserDto> returnWaitingUsers();
-
     void updateUserStatus(int identity, UserStatus userStatus);
 
     void createVerificationToken(UserDto userDto, String token);
 
     VerificationTokenDto getVerificationToken(String VerificationToken);
-
-    UserDto getCustomerDtoByVerificationToken(String verificationToken);
 
     void usedToken(VerificationTokenDto verificationToken);
 

@@ -26,22 +26,14 @@ public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
     private final Environment environment;
 
-    public ServiceDto getServiceById(int id) {
-        Optional<Service> service = serviceRepository.findById(id);
-        if (service.isEmpty())
-            throw new NotFoundException(environment.getProperty("No.Service"));
-        return ServiceMapper.mapServiceToServiceDto(service.get());
-    }
-
     public List<String> getAllServiceName() {
         return serviceRepository.findAll().stream().map(Service::getName).collect(Collectors.toList());
     }
 
-    public boolean addNewService(ServiceDto serviceDto) {
+    public void addNewService(ServiceDto serviceDto) {
         if (getAllServiceName().contains(serviceDto.getName()))
             throw new ValidationException(environment.getProperty("Duplicate.Service"));
         serviceRepository.save(ServiceMapper.mapServiceDtoToService(serviceDto));
-        return true;
     }
 
     public ServiceDto findServiceByName(String name) {

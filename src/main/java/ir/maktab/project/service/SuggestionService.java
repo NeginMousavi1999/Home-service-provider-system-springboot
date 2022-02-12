@@ -16,8 +16,6 @@ public interface SuggestionService {
 
     void saveSuggestion(SuggestionDto suggestion);
 
-    List<SuggestionDto> getByStatus(ExpertDto expert, SuggestionStatus suggestionStatus);
-
     List<SuggestionDto> getAllSuggestions(ExpertDto expert);
 
     void update(SuggestionDto suggestion);

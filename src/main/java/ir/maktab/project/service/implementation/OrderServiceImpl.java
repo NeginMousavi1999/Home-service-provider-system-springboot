@@ -70,14 +70,6 @@ public class OrderServiceImpl implements OrderService {
         return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoToPay).collect(Collectors.toSet());
     }
 
-    public List<OrderDto> getOrdersByCustomerAndStatus(CustomerDto customerDto, OrderStatus orderStatus) {
-        Optional<List<Order>> orders = orderRepository.findByCustomerAndOrderStatus(CustomerMapper.
-                mapCustomerDtoToCustomer(customerDto), orderStatus);
-        if (orders.isEmpty())
-            throw new NotFoundException(environment.getProperty("No.Order.Condition"));
-        return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoToPay).collect(Collectors.toList());
-    }
-
     public List<OrderDto> getOrdersReadyForSuggestion(ExpertDto expertDto) {
         Set<SubService> subServices = expertDto.getSubServiceDtos().stream()
                 .map(SubServiceMapper::mapSubServiceDtoToSubService).collect(Collectors.toSet());
@@ -91,24 +83,6 @@ public class OrderServiceImpl implements OrderService {
 
     public void update(OrderDto order) {
         orderRepository.save(OrderMapper.mapOrderDtoToOrderWithoutSuggestion(order));
-    }
-
-    @Override
-    public List<OrderDto> getOrdersToStartByExpert(ExpertDto expertDto) {
-        Optional<List<Order>> orders = orderRepository.findByExpertAndOrderStatus(ExpertMapper.mapExpertDtoToExpert(expertDto)
-                , OrderStatus.SPECIALIST_COMING_YOUR_PLACE);
-        if (orders.isEmpty())
-            throw new NotFoundException(environment.getProperty("No.Order.Start"));
-        return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoToStart).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<OrderDto> getOrdersToFinishByExpert(ExpertDto expertDto) {
-        Optional<List<Order>> orders = orderRepository.findByExpertAndOrderStatus(ExpertMapper.mapExpertDtoToExpert(expertDto)
-                , OrderStatus.STARTED);
-        if (orders.isEmpty())
-            throw new NotFoundException(environment.getProperty("No.Order.Finish"));
-        return orders.get().stream().map(OrderMapper::mapOrderToOrderDtoWithoutSuggestion).collect(Collectors.toList());
     }
 
     @Override

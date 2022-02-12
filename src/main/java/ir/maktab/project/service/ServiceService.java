@@ -11,11 +11,9 @@ import java.util.Set;
 
 public interface ServiceService {
 
-    ServiceDto getServiceById(int id);
-
     List<String> getAllServiceName();
 
-    boolean addNewService(ServiceDto service);
+    void addNewService(ServiceDto service);
 
     ServiceDto findServiceByName(String name);
 

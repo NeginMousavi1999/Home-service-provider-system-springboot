@@ -76,7 +76,7 @@
                                 <label>new password</label>
                             </td>
                             <td>
-                                    <label><form:password path="newPassword"/></label><br>
+                                <label><form:password path="newPassword"/></label><br>
                                 <form:errors path="newPassword" cssStyle="color: red"/>
                             </td>
                         </tr>

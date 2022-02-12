@@ -1,7 +1,6 @@
 package ir.maktab.project.service;
 
 import ir.maktab.project.data.dto.*;
-import ir.maktab.project.data.enumuration.OrderStatus;
 
 import java.util.List;
 import java.util.Set;
@@ -22,21 +21,13 @@ public interface OrderService {
 
     Set<OrderDto> getOrdersByCustomer(CustomerDto customer);
 
-    List<OrderDto> getOrdersByCustomerAndStatus(CustomerDto customer, OrderStatus orderStatus);
-
     List<OrderDto> getOrdersReadyForSuggestion(ExpertDto expertDto);
 
     void update(OrderDto order);
 
-    List<OrderDto> getOrdersToStartByExpert(ExpertDto expertDto);
-
-    List<OrderDto> getOrdersToFinishByExpert(ExpertDto expertDto);
-
     void finishOrder(OrderDto orderDto);
 
     void startOrder(OrderDto orderDto);
-
-    /*OrderDto addNewOrder(OrderRequestDto orderRequest, CustomerDto customerDto);*/
 
     OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto);
 

@@ -46,14 +46,6 @@ public class SuggestionServiceImpl implements SuggestionService {
         suggestionRepository.save(SuggestionMapper.mapSuggestionDtoToSuggestionForSaving(suggestionDto));
     }
 
-    public List<SuggestionDto> getByStatus(ExpertDto expertDto, SuggestionStatus suggestionStatus) {
-        Optional<List<Suggestion>> suggestions = suggestionRepository.findBySuggestionStatusAndExpert(suggestionStatus,
-                ExpertMapper.mapExpertDtoToExpert(expertDto));
-        if (suggestions.isEmpty())
-            throw new NotFoundException(environment.getProperty("No.Suggestion.Expert"));
-        return suggestions.get().stream().map(SuggestionMapper::mapSuggestionToSuggestionDto).collect(Collectors.toList());
-    }
-
     public List<SuggestionDto> getAllSuggestions(ExpertDto expertDto) {
         Optional<List<Suggestion>> suggestions = suggestionRepository.findByExpert(ExpertMapper.mapExpertDtoToExpert(expertDto));
         if (suggestions.isEmpty())
