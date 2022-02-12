@@ -6,13 +6,14 @@ import ir.maktab.project.data.dto.SubServiceRequestDto;
 import ir.maktab.project.data.dto.mapper.SubServiceMapper;
 import ir.maktab.project.data.entity.services.SubService;
 import ir.maktab.project.data.repository.SubServiceRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.service.ServiceService;
 import ir.maktab.project.service.SubServiceService;
 import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class SubServiceServiceImpl implements SubServiceService {
     private final Validation validation;
     private final ServiceService serviceService;
     private final ModelMapper modelMapper = new ModelMapper();
+    private final Environment environment;
 
     public List<String> getAllServiceName() {
         return subServiceRepository.findAll().stream().map(SubService::getName).collect(Collectors.toList());
@@ -47,7 +49,7 @@ public class SubServiceServiceImpl implements SubServiceService {
     public SubServiceDto findSubServiceByName(String name) {
         Optional<SubService> subService = subServiceRepository.findByName(name);
         if (subService.isEmpty())
-            throw new HomeServiceException("we have n't this sub service!");
+            throw new NotFoundException(environment.getProperty("No.SubService"));
         return SubServiceMapper.mapSubServiceToSubServiceDto(subService.get());
     }
 

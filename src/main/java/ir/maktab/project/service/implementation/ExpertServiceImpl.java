@@ -10,7 +10,8 @@ import ir.maktab.project.data.enumuration.OrderStatus;
 import ir.maktab.project.data.enumuration.SuggestionStatus;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.ExpertRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.SuggestionService;
@@ -19,6 +20,7 @@ import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -36,6 +38,7 @@ public class ExpertServiceImpl implements ExpertService {
     private final OrderService orderService;
     private final Validation validation;
     private final ModelMapper modelMapper = new ModelMapper();
+    private final Environment environment;
 
     public void save(ExpertDto expertDto) {
         Expert expert = modelMapper.map(expertDto, Expert.class);
@@ -58,7 +61,7 @@ public class ExpertServiceImpl implements ExpertService {
     public ExpertDto findByEmail(String email) {
         Optional<Expert> expert = expertRepository.findByEmail(email);
         if (expert.isEmpty())
-            throw new HomeServiceException("we have not this expert!");
+            throw new NotFoundException(environment.getProperty("No.Expert.Found"));
         return ExpertMapper.mapExpertToExpertDto(expert.get());
     }
 
@@ -80,7 +83,7 @@ public class ExpertServiceImpl implements ExpertService {
         Optional<List<SubService>> subServices = expertRepository
                 .customeGetSubServiceByExpertId(ExpertMapper.mapExpertDtoToExpert(expertDto).getId());
         if (subServices.isEmpty())
-            throw new HomeServiceException("no sub services!");
+            throw new NotFoundException(environment.getProperty("No.Expert.SubService"));
         return subServices.get().stream().map(SubServiceMapper::mapSubServiceToSubServiceDto).collect(Collectors.toSet());
     }
 
@@ -92,9 +95,10 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public void addNewSuggestion(String date, double suggestedPrice, int durationOfWork, OrderDto orderDto, ExpertDto expertDto) {
+    public void addNewSuggestion(String date, double suggestedPrice, int durationOfWork, OrderDto orderDto
+            , ExpertDto expertDto) {
         if (suggestedPrice < orderDto.getSubService().getCost())
-            throw new HomeServiceException("suggested price can not be less than subservice price!");
+            throw new ValidationException(environment.getProperty("Price.Not.Enough"));
         Set<SuggestionDto> suggestionDtoSet = suggestionService.getByOrder(orderDto);
         orderDto.setSuggestions(suggestionDtoSet);
         validation.validateUserStatus(UserStatus.CONFIRMED, expertDto.getUserStatus());
@@ -137,7 +141,7 @@ public class ExpertServiceImpl implements ExpertService {
     public ExpertDto findById(int identity) {
         Optional<Expert> expert = expertRepository.findById(identity - 1000);
         if (expert.isEmpty())
-            throw new HomeServiceException("no such expert!");
+            throw new NotFoundException(environment.getProperty("No.Expert.Found"));
         return ExpertMapper.mapExpertToExpertDto(expert.get());
     }
 

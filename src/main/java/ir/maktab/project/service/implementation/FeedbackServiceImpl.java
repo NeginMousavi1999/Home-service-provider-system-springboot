@@ -9,12 +9,13 @@ import ir.maktab.project.data.dto.mapper.OrderMapper;
 import ir.maktab.project.data.entity.order.Feedback;
 import ir.maktab.project.data.enumuration.OrderStatus;
 import ir.maktab.project.data.repository.FeedbackRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.FeedbackService;
 import ir.maktab.project.service.OrderService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final ExpertService expertService;
     private final OrderService orderService;
+    private final Environment environment;
 
     public void save(Feedback feedback) {
         feedbackRepository.save(feedback);
@@ -59,7 +61,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         Optional<Feedback> optionalFeedback = feedbackRepository
                 .findByExpertAndOrder(ExpertMapper.mapExpertDtoToExpert(expert), OrderMapper.mapOrderDtoToOrderWithId(order));
         if (optionalFeedback.isEmpty())
-            throw new HomeServiceException("no feedback!");
+            throw new NotFoundException(environment.getProperty("No.Feedback"));
         return FeedbackMapper.mapFeedbackToFeedbackDto(optionalFeedback.get());
     }
 }

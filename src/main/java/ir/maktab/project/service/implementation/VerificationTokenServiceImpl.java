@@ -4,10 +4,11 @@ import ir.maktab.project.data.dto.VerificationTokenDto;
 import ir.maktab.project.data.dto.mapper.VerificationTokenMapper;
 import ir.maktab.project.data.entity.members.VerificationToken;
 import ir.maktab.project.data.repository.VerificationTokenRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.service.VerificationTokenService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @Getter
 public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final VerificationTokenRepository verificationTokenRepository;
+    private final Environment environment;
 
     @Override
     public void save(VerificationTokenDto myToken) {
@@ -34,7 +36,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     public VerificationTokenDto findByToken(String verificationToken) {
         Optional<VerificationToken> optionalVerificationToken = verificationTokenRepository.findByToken(verificationToken);
         if (optionalVerificationToken.isEmpty())
-            throw new HomeServiceException("no token!");
+            throw new NotFoundException(environment.getProperty("No.Token"));
         return VerificationTokenMapper.mapVerificationTokenToVerificationTokenDto(optionalVerificationToken.get());
     }
 

@@ -8,11 +8,13 @@ import ir.maktab.project.data.dto.mapper.UserMapper;
 import ir.maktab.project.data.entity.members.User;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.UserRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.UserService;
 import ir.maktab.project.service.VerificationTokenService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,11 +30,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final VerificationTokenService verificationTokenService;
+    private final Environment environment;
 
     public UserDto findUserByUserNameAndPassword(LoginDto loginDto) {
         Optional<User> user = userRepository.findByEmailAndPassword(loginDto.getUsername(), loginDto.getPassword());
         if (user.isEmpty())
-            throw new HomeServiceException("username or password is incorrect");
+            throw new ValidationException(environment.getProperty("Incorrect.Login.Info"));
         return createUserDto(user.get());
     }
 
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> returnWaitingUsers() {
         Optional<List<User>> optionalUsers = userRepository.findByUserStatus(UserStatus.WAITING);
         if (optionalUsers.isEmpty())
-            throw new HomeServiceException("no waiting user!");
+            throw new NotFoundException(environment.getProperty("No.Waiting.User"));
         return optionalUsers.get().stream().map(this::createUserDto).collect(Collectors.toList());
     }
 
@@ -82,7 +85,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findByIdentity(int identity) {
         Optional<User> optionalUser = userRepository.findById(identity - 1000);
         if (optionalUser.isEmpty())
-            throw new HomeServiceException("user not found");
+            throw new NotFoundException(environment.getProperty("No.User"));
         return UserMapper.mapUserToUserDto(optionalUser.get());
     }
 }

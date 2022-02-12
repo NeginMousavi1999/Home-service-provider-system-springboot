@@ -8,12 +8,13 @@ import ir.maktab.project.data.dto.mapper.ManagerMapper;
 import ir.maktab.project.data.entity.members.Manager;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.ManagerRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.ExpertService;
 import ir.maktab.project.service.ManagerService;
 import ir.maktab.project.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
     private final ExpertService expertService;
     private final UserService userService;
+    private final Environment environment;
 
     public void save(Manager manager) {
         managerRepository.save(manager);
@@ -39,7 +41,7 @@ public class ManagerServiceImpl implements ManagerService {
     public ManagerDto findByUserNameAndPassword(LoginDto loginDto) {
         Optional<Manager> manager = managerRepository.findByEmailAndPassword(loginDto.getUsername(), loginDto.getPassword());
         if (manager.isEmpty())
-            throw new HomeServiceException("username or password is incorrect");
+            throw new ValidationException(environment.getProperty("Incorrect.Login.Info"));
         return ManagerMapper.mapManagerToManagerDto(manager.get());
     }
 

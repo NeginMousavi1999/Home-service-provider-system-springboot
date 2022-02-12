@@ -10,11 +10,13 @@ import ir.maktab.project.data.entity.order.Suggestion;
 import ir.maktab.project.data.enumuration.OrderStatus;
 import ir.maktab.project.data.enumuration.SuggestionStatus;
 import ir.maktab.project.data.repository.SuggestionRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
+import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.SuggestionService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,7 @@ public class SuggestionServiceImpl implements SuggestionService {
     private final SuggestionRepository suggestionRepository;
     private final OrderService orderService;
     private final int suffix = 1000;
+    private final Environment environment;
 
     public void addNewSuggestion(SuggestionDto suggestionDto, OrderDto orderDto) {
         saveSuggestion(suggestionDto);
@@ -47,14 +50,14 @@ public class SuggestionServiceImpl implements SuggestionService {
         Optional<List<Suggestion>> suggestions = suggestionRepository.findBySuggestionStatusAndExpert(suggestionStatus,
                 ExpertMapper.mapExpertDtoToExpert(expertDto));
         if (suggestions.isEmpty())
-            throw new HomeServiceException("no suggestion to show!");
+            throw new NotFoundException(environment.getProperty("No.Suggestion.Expert"));
         return suggestions.get().stream().map(SuggestionMapper::mapSuggestionToSuggestionDto).collect(Collectors.toList());
     }
 
     public List<SuggestionDto> getAllSuggestions(ExpertDto expertDto) {
         Optional<List<Suggestion>> suggestions = suggestionRepository.findByExpert(ExpertMapper.mapExpertDtoToExpert(expertDto));
         if (suggestions.isEmpty())
-            throw new HomeServiceException("you have no suggestion!");
+            throw new NotFoundException(environment.getProperty("No.Suggestion.Expert"));
         return suggestions.get().stream().map(SuggestionMapper::mapSuggestionToSuggestionDto).collect(Collectors.toList());
     }
 
@@ -65,7 +68,7 @@ public class SuggestionServiceImpl implements SuggestionService {
     public Set<SuggestionDto> getByOrder(OrderDto orderDto) {
         Optional<List<Suggestion>> suggestions = suggestionRepository.findByOrder(OrderMapper.mapOrderDtoToOrderWithId(orderDto));
         if (suggestions.isEmpty())
-            throw new HomeServiceException("nothing to show!!");
+            throw new NotFoundException(environment.getProperty("No.Suggestion.Order"));
         return suggestions.get().stream().map(SuggestionMapper::mapSuggestionToSuggestionDto).collect(Collectors.toSet());
     }
 
@@ -117,7 +120,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         ExpertDto expert = suggestion.getExpert();
         OrderDto order = suggestion.getOrder();
         if (!order.getOrderStatus().equals(OrderStatus.WAITING_FOR_SPECIALIST_SELECTION))
-            throw new HomeServiceException("something is wrong!");
+            throw new ValidationException(environment.getProperty("Something.Wrong"));
         order.setExpert(expert);
         order.setFinalPrice(suggestion.getSuggestedPrice());
         order.setOrderStatus(OrderStatus.SPECIALIST_COMING_YOUR_PLACE);

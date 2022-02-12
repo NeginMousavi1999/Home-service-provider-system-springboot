@@ -8,13 +8,15 @@ import ir.maktab.project.data.entity.members.Customer;
 import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
 import ir.maktab.project.data.repository.CustomerRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.DuplicateException;
+import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.service.CustomerService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final Validation validation;
     private final ModelMapper modelMapper = new ModelMapper();
     private final OrderService orderService;
+    private final Environment environment;
 
     public void update(CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapCustomerDtoToCustomer(customerDto);
@@ -45,14 +48,14 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerRepository.save(customer);
         } catch (Exception e) {
-            throw new HomeServiceException("we have this username, so you can't use it!");
+            throw new DuplicateException(environment.getProperty("Duplicate.Username"));
         }
     }
 
     public CustomerDto findByEmail(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
         if (customer.isEmpty())
-            throw new HomeServiceException("we have not customer with this email");
+            throw new NotFoundException(environment.getProperty("No.Customer.Found"));
         return CustomerMapper.mapCustomerToCustomerDto(customer.get());
     }
 
@@ -111,7 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto findByIdentity(int identity) {
         Optional<Customer> optionalCustomer = customerRepository.findById(identity - 1000);
         if (optionalCustomer.isEmpty())
-            throw new HomeServiceException("customer not found");
+            throw new NotFoundException(environment.getProperty("No.Customer.Found"));
         return CustomerMapper.mapCustomerToCustomerDto(optionalCustomer.get());
     }
 }

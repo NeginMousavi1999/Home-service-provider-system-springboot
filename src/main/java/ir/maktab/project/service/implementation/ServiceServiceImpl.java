@@ -4,11 +4,12 @@ import ir.maktab.project.data.dto.ServiceDto;
 import ir.maktab.project.data.dto.mapper.ServiceMapper;
 import ir.maktab.project.data.entity.services.Service;
 import ir.maktab.project.data.repository.ServiceRepository;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.service.ServiceService;
 import ir.maktab.project.validation.Validation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,11 +25,12 @@ import java.util.stream.Collectors;
 public class ServiceServiceImpl implements ServiceService {
     private final ServiceRepository serviceRepository;
     private final Validation validation;
+    private final Environment environment;
 
     public ServiceDto getServiceById(int id) {
         Optional<Service> service = serviceRepository.findById(id);
         if (service.isEmpty())
-            throw new RuntimeException(" we have not service with this id");
+            throw new NotFoundException(environment.getProperty("No.Service"));
         return ServiceMapper.mapServiceToServiceDto(service.get());
     }
 
@@ -49,14 +51,14 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceDto findServiceByName(String name) {
         Optional<Service> service = serviceRepository.findByName(name);
         if (service.isEmpty())
-            throw new HomeServiceException("we have n't this service!");
+            throw new NotFoundException(environment.getProperty("No.Service"));
         return ServiceMapper.mapServiceToServiceDto(service.get());
     }
 
     public Set<ServiceDto> getAllServiceIncludingSubService() {
         Optional<List<Service>> optionalServices = serviceRepository.getAllIncludeSubService();
         if (optionalServices.isEmpty())
-            throw new HomeServiceException("no service yet!");
+            throw new NotFoundException(environment.getProperty("No.Service.System"));
         return optionalServices.get().stream().map(ServiceMapper::mapServiceToServiceDtoIncludeSubService)
                 .collect(Collectors.toSet());
     }

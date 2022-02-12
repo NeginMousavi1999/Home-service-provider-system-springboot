@@ -2,7 +2,7 @@ package ir.maktab.project.validation;
 
 import ir.maktab.project.data.enumuration.UserRole;
 import ir.maktab.project.data.enumuration.UserStatus;
-import ir.maktab.project.exception.HomeServiceException;
+import ir.maktab.project.exceptions.ValidationException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,44 +16,39 @@ public class Validation {
     public boolean validateEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         if (!Pattern.matches(regex, email))
-            throw new HomeServiceException("invalid email!");
+            throw new ValidationException("invalid email!");
         return true;
     }
 
-    public boolean validatePassword(String password) {
+    public void validatePassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8}$";
         if (!Pattern.matches(regex, password))
-            throw new HomeServiceException("the password must be at least 8 character, with a lower case, an upper case and no whitespace");
-        return true;
+            throw new ValidationException("the password must be at least 8 character, with a lower case, an upper case and no whitespace");
     }
 
-    public boolean validateUserRole(UserRole expectRole, UserRole actualRole) {
+    public void validateUserRole(UserRole expectRole, UserRole actualRole) {
         if (!expectRole.equals(actualRole))
-            throw new HomeServiceException(String.format("your role is not %s!", expectRole.toString().toLowerCase()));
-        return true;
+            throw new ValidationException(String.format("your role is not %s!", expectRole.toString().toLowerCase()));
     }
 
-    public boolean validateCorrectPassword(String oldPass, String newPass) {
+    public void validateCorrectPassword(String oldPass, String newPass) {
         if (!oldPass.equals(newPass))
-            throw new HomeServiceException("password is wrong!");
-        return true;
+            throw new ValidationException("password is wrong!");
     }
 
     public boolean validateNewName(String name, List<String> allName) {
         if (allName.contains(name))
-            throw new HomeServiceException("duplicate name!");
+            throw new ValidationException("duplicate name!");
         return true;
     }
 
-    public boolean validateCustomerCredit(double credit, double price) {
+    public void validateCustomerCredit(double credit, double price) {
         if (credit < price)
-            throw new HomeServiceException("you have not enough credit to pay!");
-        return true;
+            throw new ValidationException("you have not enough credit to pay!");
     }
 
-    public boolean validateUserStatus(UserStatus expect, UserStatus actual) {
+    public void validateUserStatus(UserStatus expect, UserStatus actual) {
         if (!expect.equals(actual))
-            throw new HomeServiceException(String.format("your status is not %s!", expect.toString().toLowerCase()));
-        return true;
+            throw new ValidationException(String.format("your status is not %s!", expect.toString().toLowerCase()));
     }
 }
