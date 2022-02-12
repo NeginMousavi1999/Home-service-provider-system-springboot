@@ -39,7 +39,8 @@
             <div class="col-md-7">
                 <div style="color: green">${succ_massage}</div>
                 <div style="color: red">${error_massage}</div>
-                <form action="${pageContext.request.contextPath}/customer/update_password" method="post">
+                <form:form modelAttribute="changedPasswordDto"
+                           action="${pageContext.request.contextPath}/customer/update_password" method="post">
                     <table class="table table-bordered table-striped text-dark text-center">
                         <thead>
                         <tr>
@@ -55,7 +56,8 @@
                             </td>
                             <td>
                                 <label>
-                                    <input type="text" name="userName"/>
+                                    <form:input path="email"/>
+                                    <form:errors path="email"/>
                                 </label>
                             </td>
                         </tr>
@@ -65,10 +67,8 @@
                             </td>
                             <td>
                                 <label>
-                                    <input type="password" name="oldPass"
-                                           pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8}$"
-                                           title="the password must be at least 8 character, with a lower case, an upper case and no whitespace"/>
-                                </label>
+                                    <form:password path="oldPassword"/></label>
+                                <form:errors path="oldPassword"/>
                             </td>
                         </tr>
                         <tr>
@@ -76,17 +76,14 @@
                                 <label>new password</label>
                             </td>
                             <td>
-                                <label>
-                                    <input type="password" name="newPass"
-                                           pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8}$"
-                                           title="the password must be at least 8 character, with a lower case, an upper case and no whitespace"/>
-                                </label>
+                                    <label><form:password path="newPassword"/></label><br>
+                                <form:errors path="newPassword" cssStyle="color: red"/>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                     <input type="submit" value="Submit" class="btn btn-block btn-primary"/>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

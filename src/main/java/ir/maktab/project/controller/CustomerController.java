@@ -35,24 +35,23 @@ public class CustomerController {
     }
 
     @GetMapping("/change_password")
-    public String accessToChangePassword() {
+    public String accessToChangePassword(Model model) {
+        model.addAttribute("changedPasswordDto", new PasswordChangedDto());
         return "customer/change_password";
     }
 
     @PostMapping("/update_password")
-    public String changePassword(@RequestParam(name = "userName") String email,
-                                 @RequestParam(name = "oldPass") String oldPassword,
-                                 @RequestParam(name = "newPass") String newPassword, Model model) {
+    public String changePassword(@Validated @ModelAttribute("changedPasswordDto") PasswordChangedDto passwordChangedDto, Model model) {
         try {
-            CustomerDto customerDto = customerService.findByEmail(email);
-            customerService.changePassword(customerDto, oldPassword, newPassword);
+            CustomerDto customerDto = customerService.findByEmail(passwordChangedDto.getEmail());
+            customerService.changePassword(customerDto, passwordChangedDto.getOldPassword(),
+                    passwordChangedDto.getNewPassword());
             model.addAttribute("customer", customerDto);
             model.addAttribute("succ_massage", "successfully changed");
-            return "customer/change_password";
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
-            return "customer/change_password";
         }
+        return accessToChangePassword(model);
     }
 
     @GetMapping("/paying_from_credit/{identity}")
