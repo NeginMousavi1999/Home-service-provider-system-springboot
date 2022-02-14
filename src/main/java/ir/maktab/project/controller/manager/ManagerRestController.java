@@ -1,4 +1,4 @@
-package ir.maktab.project.controller;
+package ir.maktab.project.controller.manager;
 
 import io.swagger.annotations.ApiOperation;
 import ir.maktab.project.data.dto.*;

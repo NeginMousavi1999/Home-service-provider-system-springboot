@@ -1,4 +1,4 @@
-package ir.maktab.project.controller;
+package ir.maktab.project.controller.manager;
 
 import ir.maktab.project.data.dto.*;
 import ir.maktab.project.service.*;
