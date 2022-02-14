@@ -1,6 +1,5 @@
 package ir.maktab.project.service;
 
-import ir.maktab.project.data.dto.LoginDto;
 import ir.maktab.project.data.dto.UserDto;
 import ir.maktab.project.data.dto.UserRequestDto;
 import ir.maktab.project.data.dto.VerificationTokenDto;

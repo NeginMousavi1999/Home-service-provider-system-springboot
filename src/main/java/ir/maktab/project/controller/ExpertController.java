@@ -48,7 +48,7 @@ public class ExpertController {
             ExpertDto expertDto = (ExpertDto) request.getSession().getAttribute("expertDto");
             SubServiceDto subServiceDto = subServiceService.findSubServiceByName(subServiceName);
             expertService.addSubServices(expertDto, subServiceDto);
-            model.addAttribute("succ_massage", "successfuly added");
+            model.addAttribute("succ_massage", "successfully added");
         } catch (Exception e) {
             model.addAttribute("error_massage", e.getLocalizedMessage());
         }
@@ -127,7 +127,7 @@ public class ExpertController {
             SuggestionDto suggestionDto = suggestions.stream().filter(dto -> dto.getIdentity() == identity).findFirst()
                     .orElse(null);
             assert suggestionDto != null;
-            orderService.startOrder(suggestionDto.getOrder());
+            expertService.startOrder(suggestionDto.getOrder());
             model.addAttribute("succ_massage", "order started successfully");
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());
@@ -143,7 +143,8 @@ public class ExpertController {
             SuggestionDto suggestionDto = suggestions.stream().filter(dto -> dto.getIdentity() == identity).findFirst()
                     .orElse(null);
             assert suggestionDto != null;
-            orderService.finishOrder(suggestionDto.getOrder());
+            ExpertDto expertDto = expertService.finishOrder(suggestionDto.getOrder(), suggestionDto.getDurationOfWork());
+            session.setAttribute("expertDto", expertDto);
             model.addAttribute("succ_massage", "order finished successfully");
         } catch (Exception exception) {
             model.addAttribute("error_massage", exception.getLocalizedMessage());

@@ -13,6 +13,7 @@ import ir.maktab.project.data.repository.ExpertRepository;
 import ir.maktab.project.exceptions.NotFoundException;
 import ir.maktab.project.exceptions.ValidationException;
 import ir.maktab.project.service.ExpertService;
+import ir.maktab.project.service.OrderProcessService;
 import ir.maktab.project.service.OrderService;
 import ir.maktab.project.service.SuggestionService;
 import ir.maktab.project.util.GenerateDate;
@@ -37,6 +38,7 @@ public class ExpertServiceImpl implements ExpertService {
     private final OrderService orderService;
     private final ModelMapper modelMapper = new ModelMapper();
     private final Environment environment;
+    private final OrderProcessService orderProcessService;
 
     public void save(ExpertDto expertDto) {
         Expert expert = modelMapper.map(expertDto, Expert.class);
@@ -148,5 +150,36 @@ public class ExpertServiceImpl implements ExpertService {
     public void confirmEmail(ExpertDto expertDto) {
         expertDto.setUserStatus(UserStatus.WAITING);
         update(expertDto);
+    }
+
+    @Override
+    public void startOrder(OrderDto orderDto) {
+        orderService.setOrderStarted(orderDto);
+        OrderProcessDto orderProcessDto = OrderProcessDto.builder()
+                .order(orderDto)
+                .build();
+        orderProcessService.save(orderProcessDto);
+    }
+
+    @Override
+    public ExpertDto finishOrder(OrderDto orderDto, int expectDuration) {
+        orderService.setOrderFinished(orderDto);
+        OrderProcessDto processDto = orderProcessService.findByOrder(orderDto);
+        processDto.setFinishTime(new Date());
+        int actualDuration = orderProcessService.getActualDurationOfDoingOrderProcess(processDto);
+        ExpertDto expertDto = orderDto.getExpert();
+        if (actualDuration > expectDuration)
+            expertDto = fine(actualDuration - expectDuration, expertDto);
+        orderProcessService.save(processDto);
+        return expertDto;
+    }
+
+    @Override
+    public ExpertDto fine(int delay, ExpertDto expertDto) {
+        double score = expertDto.getScore();
+        score = score - (0.05 * delay);
+        expertDto.setScore(score);
+        update(expertDto);
+        return expertDto;
     }
 }

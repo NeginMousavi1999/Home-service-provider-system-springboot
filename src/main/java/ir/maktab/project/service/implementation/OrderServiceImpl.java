@@ -86,13 +86,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void finishOrder(OrderDto orderDto) {
+    public void setOrderFinished(OrderDto orderDto) {
         orderDto.setOrderStatus(OrderStatus.DONE);
         updateStatus(orderDto);
     }
 
     @Override
-    public void startOrder(OrderDto orderDto) {
+    public void setOrderStarted(OrderDto orderDto) {
         orderDto.setOrderStatus(OrderStatus.STARTED);
         updateStatus(orderDto);
     }

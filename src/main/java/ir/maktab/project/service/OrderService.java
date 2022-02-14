@@ -25,9 +25,9 @@ public interface OrderService {
 
     void update(OrderDto order);
 
-    void finishOrder(OrderDto orderDto);
+    void setOrderFinished(OrderDto orderDto);
 
-    void startOrder(OrderDto orderDto);
+    void setOrderStarted(OrderDto orderDto);
 
     OrderDto addNewOrderNew(NewOrderDto orderRequest, CustomerDto customerDto);
 

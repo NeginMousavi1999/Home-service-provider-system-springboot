@@ -37,4 +37,10 @@ public interface ExpertService {
     ExpertDto findById(int identity);
 
     void confirmEmail(ExpertDto expertDto);
+
+    void startOrder(OrderDto orderDto);
+
+    ExpertDto finishOrder(OrderDto orderDto, int expectDuration);
+
+    ExpertDto fine(int delay, ExpertDto expertDto);
 }
